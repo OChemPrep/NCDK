@@ -787,9 +787,9 @@
     </Compile>
     <Content Include="TT\Strand.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Strand.tt.cs</LastGenOutput>
+      <LastGenOutput>Strand.cs</LastGenOutput>
     </Content>
-    <Compile Include="TT\Strand.tt.cs">
+    <Compile Include="TT\Strand.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strand.tt</DependentUpon>
