@@ -77,9 +77,6 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="VDS.Common, Version=1.6.4.0, Culture=neutral, PublicKeyToken=ab5f4eb908061bf0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\VDS.Common.1.6.4\lib\net40-client\VDS.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Beam\Core\AllCycles.cs" />
@@ -191,7 +188,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IHasProperties.tt</DependentUpon>
     </Compile>
-    <Compile Include="IO\InChIContentProcessorTool.cs" />
     <Compile Include="IO\Iterator\EnumerablePCCompoundASNReader.cs" />
     <Compile Include="Isomorphisms\Matchers\SMARTS\ReactionRoleQueryAtom.cs" />
     <Compile Include="LibIO\CML\CMLElementBodies.tt.cs">
@@ -1496,10 +1492,6 @@
     <Compile Include="IO\IChemObjectWriter.cs" />
     <Compile Include="IO\Setting\ISetting.cs" />
     <Compile Include="IO\ISimpleChemObjectReader.cs" />
-    <Compile Include="IO\InChIPlainTextReader.cs" />
-    <Compile Include="IO\InChIReader.cs" />
-    <Compile Include="IO\InChI\InChIContentProcessorTool.cs" />
-    <Compile Include="IO\InChI\InChIHandler.cs" />
     <Compile Include="IO\Listener\IChemObjectIOListener.cs" />
     <Compile Include="IO\Listener\IReaderListener.cs" />
     <Compile Include="IO\Listener\IWriterListener.cs" />
