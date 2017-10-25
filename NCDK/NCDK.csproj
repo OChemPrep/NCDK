@@ -61,12 +61,6 @@
     <AssemblyOriginatorKeyFile>ncdk.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dotNetRDF, Version=1.0.12.0, Culture=neutral, PublicKeyToken=6055ffe4c97cc780, processorArchitecture=MSIL">
-      <HintPath>..\packages\dotNetRDF.1.0.12\lib\net40\dotNetRDF.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="MathNet.Numerics, Version=3.20.0.0, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.Signed.3.20.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -279,12 +273,6 @@
       <DependentUpon>DoubleBondConformation.tt</DependentUpon>
     </Compile>
     <Compile Include="Events\ICDKChangeListener.cs" />
-    <Content Include="x64\ncdk_libinchi.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\ncdk_libinchi.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="app.config" />
     <None Include="Beam\Snap.txt" />
     <None Include="cheminf.bibx" />
@@ -420,7 +408,6 @@
     </Content>
     <Compile Include="LibIO\CML\CMLMolecule.cs" />
     <Compile Include="LibIO\CML\CMLScalar.cs" />
-    <Compile Include="LibIO\DotNetRDF\Convertor.cs" />
     <Compile Include="Proteins\ProteinPocketFinder.cs" />
     <Compile Include="ReactionRoles.cs" />
     <Compile Include="Reactions\ReactionChain.cs" />
@@ -1523,8 +1510,6 @@
     <Compile Include="IO\RandomAccess\DefaultRandomAccessChemObjectReader.cs" />
     <Compile Include="IO\RandomAccess\RandomAccessReader.cs" />
     <Compile Include="IO\RandomAccess\RandomAccessSDFReader.cs" />
-    <Compile Include="IO\RDF\CDKOWLReader.cs" />
-    <Compile Include="IO\RDF\CDKOWLWriter.cs" />
     <Compile Include="IO\ReaderEvent.cs" />
     <Compile Include="IO\ReaderFactory.cs" />
     <Compile Include="IO\RGroupQueryReader.cs" />
