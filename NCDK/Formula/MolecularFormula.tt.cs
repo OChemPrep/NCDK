@@ -12,7 +12,7 @@ namespace NCDK.Formula
         {
             typeof(string),
             typeof(NCDK.Dict.DictRef),
-            typeof(NCDK.QSAR.DescriptorSpecification),
+//            typeof(NCDK.QSAR.DescriptorSpecification),
         };
 #endif
 

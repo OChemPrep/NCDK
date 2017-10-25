@@ -168,10 +168,10 @@ namespace NCDK.IO.CML
                         {
                             conv = new JMOLANIMATIONConvention(conv);
                         }
-                        else if (convName.Equals("qsar:DescriptorValue"))
-                        {
-                            conv = new QSARConvention(conv);
-                        }
+                        //else if (convName.Equals("qsar:DescriptorValue"))
+                        //{
+                        //    conv = new QSARConvention(conv);
+                        //}
                         else if (userConventions.ContainsKey(convName))
                         {
                             //unknown convention. userConvention?
