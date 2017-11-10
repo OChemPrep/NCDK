@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using NCDK.Graphs.Invariant;
 using NCDK.Layout;
 using UnityEngine;
 
@@ -63,6 +64,11 @@ namespace NCDK
             if(type == typeof(IdentityTemplateLibrary))
             {
                 string relativePath = "NCDK/Layout/" + name;
+                return GetAsUnityStream(relativePath);
+            }
+            else if(type == typeof(Canon))
+            {
+                string relativePath = "NCDK/Graphs/Invariant/" + name;
                 return GetAsUnityStream(relativePath);
             }
 
