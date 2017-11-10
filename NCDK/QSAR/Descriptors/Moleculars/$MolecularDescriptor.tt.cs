@@ -34,11 +34,6 @@ namespace NCDK.QSAR.Descriptors.Moleculars
         DescriptorValue IMolecularDescriptor.Calculate(IAtomContainer container)
             => Calculate(container);
 	}
-	public partial class WHIMDescriptor
-	{
-        DescriptorValue IMolecularDescriptor.Calculate(IAtomContainer container)
-            => Calculate(container);
-	}
 	public partial class WeightedPathDescriptor
 	{
         DescriptorValue IMolecularDescriptor.Calculate(IAtomContainer container)
@@ -80,11 +75,6 @@ namespace NCDK.QSAR.Descriptors.Moleculars
             => Calculate(container);
 	}
 	public partial class PetitjeanNumberDescriptor
-	{
-        DescriptorValue IMolecularDescriptor.Calculate(IAtomContainer container)
-            => Calculate(container);
-	}
-	public partial class MomentOfInertiaDescriptor
 	{
         DescriptorValue IMolecularDescriptor.Calculate(IAtomContainer container)
             => Calculate(container);
@@ -200,11 +190,6 @@ namespace NCDK.QSAR.Descriptors.Moleculars
             => Calculate(container);
 	}
 	public partial class BondCountDescriptor
-	{
-        DescriptorValue IMolecularDescriptor.Calculate(IAtomContainer container)
-            => Calculate(container);
-	}
-	public partial class BCUTDescriptor
 	{
         DescriptorValue IMolecularDescriptor.Calculate(IAtomContainer container)
             => Calculate(container);
