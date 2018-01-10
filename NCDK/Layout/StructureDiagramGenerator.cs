@@ -1759,13 +1759,17 @@ namespace NCDK.Layout
                             direction -= startVector;
                             Debug.WriteLine("Done placing neighbors of atom " + (molecule.Atoms.IndexOf(atom) + 1));
                         }
-                        else
+                        else if(placedAtoms.Atoms.Count == 1)
                         {
                             Debug.WriteLine("Less than or equal one atoms placed already");
                             Debug.WriteLine("Trying to get next bond vector.");
                             direction = atomPlacer.GetNextBondVector(atom, placedAtoms.Atoms[0],
                                                                      GeometryUtil.Get2DCenter(molecule), true);
 
+                        }
+                        else
+                        {
+                            direction = firstBondVector;
                         }
 
                         for (int f = 1; f < longestUnplacedChain.Atoms.Count; f++)
