@@ -193,7 +193,7 @@ namespace NCDK.Layout
             var ringpairs = new HashSet<IntTuple>();
 
             // score at which to check for crossing bonds
-            double maybeCrossed = 1 / (2 * 2);
+            double maybeCrossed = 1.0 / (2.0 * 2.0);
 
             int numAtoms = mol.Atoms.Count;
             for (int u = 0; u < numAtoms; u++)
