@@ -102,8 +102,8 @@ namespace NCDK.Layout
 
         public static Vector2 DefaultBondVector = new Vector2(0, 1);
         private static IdentityTemplateLibrary DefaultTempleteLibrary =
-            IdentityTemplateLibrary.LoadFromResource("custom-templates.smi")
-                .Add(IdentityTemplateLibrary.LoadFromResource("chebi-ring-templates.smi"));
+            IdentityTemplateLibrary.LoadFromResource("custom-templates_smi.txt")
+                .Add(IdentityTemplateLibrary.LoadFromResource("chebi-ring-templates_smi.txt"));
 
         public StructureDiagramGenerator()
                 : this(DefaultTempleteLibrary)

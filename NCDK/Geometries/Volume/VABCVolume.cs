@@ -68,7 +68,7 @@ namespace NCDK.Geometries.Volume
         {
             if (atomTypeList == null)
             {
-                atomTypeList = AtomTypeFactory.GetInstance("NCDK.Dict.Data.cdk-atom-types.owl",
+                atomTypeList = AtomTypeFactory.GetInstance("NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml",
                         molecule.Builder // take whatever we got first
                         );
             }

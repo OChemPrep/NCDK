@@ -62,7 +62,7 @@ namespace NCDK.Config
 
         private Isotopes()
         {
-            string configFile = "NCDK.Config.Data.isotopes.dat";
+            string configFile = "NCDK.Config.Resources.Data.isotopes_dat.bytes";
             isotopes = new Dictionary<string, IList<IIsotope>>();
             var ins = ResourceLoader.GetAsStream(configFile);
 

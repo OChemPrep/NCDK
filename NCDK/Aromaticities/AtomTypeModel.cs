@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2013 European Bioinformatics Institute (EMBL-EBI)
  *                    John May <jwmay@users.sf.net>
  *
@@ -154,7 +154,7 @@ namespace NCDK.Aromaticities
 
             try
             {
-                IAtomType atomType = AtomTypeFactory.GetInstance("NCDK.Dict.Data.cdk-atom-types.owl",
+                IAtomType atomType = AtomTypeFactory.GetInstance("NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml",
                         atom.Builder).GetAtomType(atom.AtomTypeName);
                 var propPiBondCount = atomType.GetProperty<int>(CDKPropertyName.PiBondCount, 0);
                 return propPiBondCount;

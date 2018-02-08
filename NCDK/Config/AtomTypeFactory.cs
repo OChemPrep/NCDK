@@ -38,7 +38,7 @@ namespace NCDK.Config
 
         public static AtomTypeFactory GetInstance(IChemObjectBuilder builder)
         {
-            return GetInstance("NCDK.Config.Data.structgen_atomtypes.xml", builder);
+            return GetInstance("NCDK.Config.Resources.Data.structgen_atomtypes.xml", builder);
         }
 
         public static AtomTypeFactory GetInstance(string configFile, IChemObjectBuilder builder)
@@ -70,6 +70,11 @@ namespace NCDK.Config
                 default:
                     format = XML_EXTENSION;
                     break;
+            }
+
+            if(fileName.Contains("_owl"))
+            {
+                format = OWL_EXTENSION;
             }
 
             ReadConfiguration(ins, format, builder);

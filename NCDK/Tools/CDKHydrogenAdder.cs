@@ -1,4 +1,4 @@
-/* Copyright (C) 2007  Egon Willighagen
+﻿/* Copyright (C) 2007  Egon Willighagen
  *               2009  Mark Rijnbeek <markr@ebi.ac.uk>
  *
  * Contact: cdk-devel@lists.sourceforge.net
@@ -45,7 +45,7 @@ namespace NCDK.Tools
     public class CDKHydrogenAdder
     {
         private AtomTypeFactory atomTypeList;
-        private readonly string ATOM_TYPE_LIST = "NCDK.Dict.Data.cdk-atom-types.owl";
+        private readonly string ATOM_TYPE_LIST = "NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml";
 
         private static IDictionary<Type, CDKHydrogenAdder> tables = new Dictionary<Type, CDKHydrogenAdder>();
 

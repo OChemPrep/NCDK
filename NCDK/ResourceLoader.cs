@@ -13,6 +13,49 @@ namespace NCDK
 {
     public static class ResourceLoader
     {
+#if true
+        private static Stream GetAsUnityStream(string name)
+        {
+            var fileExt = Path.GetExtension(name);
+            var pathComponents = name.Split('.');
+
+            int ResourcesIdx = 0;
+            for (int i = 0; i < pathComponents.Length; i++)
+            {
+                if(pathComponents[i].Equals("Resources"))
+                {
+                    ResourcesIdx = i;
+                    break;
+                }
+            }
+
+            // Make a path this is relative the the Resources folder and doesn't
+            // include the file extension.
+            string fullPath = string.Empty;
+            for (int i = ResourcesIdx + 1; i < pathComponents.Length - 1; i++)
+            {
+                fullPath = Path.Combine(fullPath, pathComponents[i]);
+            }
+
+            UnityEngine.Debug.Log("Loading resource " + name + " as " + fullPath);
+
+            try
+            {
+                var o = Resources.Load(fullPath) as TextAsset;
+
+                MemoryStream memStream = new MemoryStream(o.bytes);
+                return memStream;
+            }
+            catch (Exception exception)
+            {
+                UnityEngine.Debug.Log(exception.Message);
+            }
+
+            UnityEngine.Debug.Log(name + " not found.");
+            return null;
+
+        }
+#else
         private static Stream GetAsUnityStream(string name)
         {
             {
@@ -38,6 +81,7 @@ namespace NCDK
 
             if (File.Exists(name))
             {
+                UnityEngine.Debug.Log(name + " found.");
                 try
                 {
                     var srm = new FileStream(name, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -54,6 +98,8 @@ namespace NCDK
             return null;
 
         }
+#endif
+
         public static Stream GetAsStream(string name)
         {
             return GetAsUnityStream(name);
@@ -63,12 +109,12 @@ namespace NCDK
         {
             if(type == typeof(IdentityTemplateLibrary))
             {
-                string relativePath = "NCDK/Layout/" + name;
+                string relativePath = "NCDK.Layout.Resources." + name;
                 return GetAsUnityStream(relativePath);
             }
             else if(type == typeof(Canon))
             {
-                string relativePath = "NCDK/Graphs/Invariant/" + name;
+                string relativePath = "NCDK.Graphs.Invariant.Resources." + name;
                 return GetAsUnityStream(relativePath);
             }
 

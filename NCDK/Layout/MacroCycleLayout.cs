@@ -37,7 +37,7 @@ namespace NCDK.Layout
     sealed class MacroCycleLayout
     {
         // Macrocycle templates
-        private static IdentityTemplateLibrary TEMPLATES = IdentityTemplateLibrary.LoadFromResource("macro.smi");
+        private static IdentityTemplateLibrary TEMPLATES = IdentityTemplateLibrary.LoadFromResource("macro_smi.txt");
 
         // Hint for placing substituents
         public static string MACROCYCLE_ATOM_HINT = "layout.macrocycle.atom.hint";

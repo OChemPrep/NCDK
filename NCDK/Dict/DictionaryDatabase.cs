@@ -57,7 +57,7 @@ namespace NCDK.Dict
             {
                 string name = dictionaryNames[i];
                 string type = dictionaryTypes[i];
-                EntryDictionary dictionary = ReadDictionary("NCDK.Dict.Data." + name, type);
+                EntryDictionary dictionary = ReadDictionary("NCDK.Dict.Resources.Data." + name, type);
                 if (dictionary != null)
                 {
                     dictionaries.Add(name.ToLowerInvariant(), dictionary);
@@ -70,10 +70,17 @@ namespace NCDK.Dict
         {
             EntryDictionary dictionary;
             // to distinguish between OWL: QSAR & REACT
-            if (type.Contains("_React"))
-                databaseLocator += "." + type.Substring(0, type.Length - 6);
+            if (type.Contains("owl"))
+            {
+                if (type.Contains("_React"))
+                    databaseLocator += "_" + type.Substring(0, type.Length - 6) + ".xml";
+                else
+                    databaseLocator += "_" + type + ".xml";
+            }
             else
+            {
                 databaseLocator += "." + type;
+            }
             if (cache.ContainsKey(databaseLocator))
             {
                 return cache[databaseLocator];
