@@ -392,7 +392,7 @@ namespace NCDK.Graphs.Invariant
         {
             try
             {
-                using (var srm = ResourceLoader.GetAsStream(typeof(Canon), "primes.dat"))
+                using (var srm = ResourceLoader.GetAsStream(typeof(Canon), "primes.txt"))
                 using (var br = new StreamReader(srm))
                 {
                     int[] primes = new int[N_PRIMES];
