@@ -57,7 +57,7 @@ namespace NCDK.Config
 
         private void ReadConfiguration(string fileName, IChemObjectBuilder builder)
         {
-            Trace.TraceInformation("Reading config file from " + fileName);
+            //Trace.TraceInformation("Reading config file from " + fileName);
             var ins = ResourceLoader.GetAsStream(fileName);
 
             string format = Path.GetExtension(fileName);
