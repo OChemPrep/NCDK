@@ -107,7 +107,7 @@ namespace NCDK.Fragments
             else
                 this.generator = generator;
 
-            smigen = SmilesGenerator.Unique().Aromatic();
+            smigen = new SmilesGenerator(SmiFlavor.Unique | SmiFlavor.UseAromaticSymbols);
         }
 
         /// <summary>

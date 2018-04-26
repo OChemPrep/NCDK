@@ -70,7 +70,7 @@ namespace NCDK.Fragments
         {
             this.MinimumFragmentSize = minFragSize;
             fragMap = new Dictionary<string, IAtomContainer>();
-            smilesGenerator = SmilesGenerator.Unique().Aromatic();
+            smilesGenerator = new SmilesGenerator(SmiFlavor.Unique | SmiFlavor.UseAromaticSymbols);
         }
 
         /// <summary>
