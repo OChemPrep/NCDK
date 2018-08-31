@@ -346,7 +346,6 @@
     <Compile Include="Config\Isotope\IsotopeReader.cs" />
     <Compile Include="Config\XMLIsotopeFactory.cs" />
     <None Include="FaulonSignatures\LICENCE.txt" />
-    <Compile Include="Geometries\Alignments\KabschAlignment.cs" />
     <Compile Include="Geometries\AtomTools.cs" />
     <Compile Include="Geometries\Projector.cs" />
     <Compile Include="Geometries\RDFCalculator.cs" />
@@ -1871,7 +1870,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Geometries\Alignments\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
