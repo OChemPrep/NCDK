@@ -45,7 +45,7 @@ namespace NCDK.Fingerprints
     public class LingoFingerprinter : AbstractFingerprinter, IFingerprinter
     {
         private readonly int n;
-        private readonly SmilesGenerator gen = SmilesGenerator.Unique().Aromatic();
+        private readonly SmilesGenerator gen = new SmilesGenerator(SmiFlavor.Unique | SmiFlavor.UseAromaticSymbols);
         private readonly Regex DIGITS = new Regex("[0-9]+", RegexOptions.Compiled);
         private readonly Aromaticity aromaticity = new Aromaticity(ElectronDonation.DaylightModel, Cycles.Or(Cycles.AllFinder, Cycles.RelevantFinder));
 

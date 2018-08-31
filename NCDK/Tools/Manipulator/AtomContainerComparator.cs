@@ -105,11 +105,8 @@ namespace NCDK.Tools.Manipulator
                     Trace.TraceWarning("Exception in molecular mass calculation.");
                     return 0;
                 }
-                if (mw1 > mw2)
-                    return 1;
-                else if (mw1 < mw2)
-                    return -1;
-                else
+                double eps = 0.00001;
+                if(Math.Abs(mw1 - mw2) < eps)
                 {
                     // 3. Molecular weight equal, compare bond count
                     if (atomContainer1.Bonds.Count > atomContainer2.Bonds.Count)
@@ -127,6 +124,11 @@ namespace NCDK.Tools.Manipulator
                     }
 
                 }
+                else if (mw1 > mw2)
+                    return 1;
+                else if (mw1 < mw2)
+                    return -1;
+
             }
             // AtomContainers are equal in terms of this comparator
             return 0;

@@ -60,7 +60,6 @@ namespace NCDK.Signatures {
         public IEnumerator<int> GetEnumerator()
         {
             return this.atomIndices.GetEnumerator();
-            throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

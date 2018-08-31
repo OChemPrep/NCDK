@@ -135,9 +135,12 @@ namespace NCDK.IO
         /// <param name="molecule">Molecule of which the data is given as output.</param>
         public void WriteAtomContainer(IAtomContainer molecule)
         {
-            SmilesGenerator sg = new SmilesGenerator();
-            if (useAromaticityFlag.IsSet) sg = sg.Aromatic();
+            SmilesGenerator sg = SmilesGenerator.Generic();
+            if (useAromaticityFlag.IsSet)
+                sg = new SmilesGenerator(SmiFlavor.Generic | SmiFlavor.UseAromaticSymbols);
+
             string smiles = "";
+
             try
             {
                 smiles = sg.Create(molecule);

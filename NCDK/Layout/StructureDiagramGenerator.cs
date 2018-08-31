@@ -102,8 +102,8 @@ namespace NCDK.Layout
 
         public static Vector2 DefaultBondVector = new Vector2(0, 1);
         private static IdentityTemplateLibrary DefaultTempleteLibrary =
-            IdentityTemplateLibrary.LoadFromResource("custom-templates.smi")
-                .Add(IdentityTemplateLibrary.LoadFromResource("chebi-ring-templates.smi"));
+            IdentityTemplateLibrary.LoadFromResource("custom-templates_smi.txt")
+                .Add(IdentityTemplateLibrary.LoadFromResource("chebi-ring-templates_smi.txt"));
 
         public StructureDiagramGenerator()
                 : this(DefaultTempleteLibrary)
@@ -472,15 +472,15 @@ namespace NCDK.Layout
         /// StructureDiagramGenerator, call the generateCoordinates() method and get
         /// your molecule back.
         /// </summary>
-        /// <param name="firstBondVector">the vector of the first bond to lay out</param>
+        /// <param name="firstBondDirection">the vector of the first bond to lay out</param>
         /// <param name="isConnected">the 'molecule' attribute is guaranteed to be connected (we have checked)</param>
         /// <param name="isSubLayout">the 'molecule' is being laid out as part of a large collection of fragments</param>
         /// <exception cref="CDKException">problem occurred during layout</exception>
-        private void GenerateCoordinates(Vector2 firstBondVector, bool isConnected, bool isSubLayout)
+        private void GenerateCoordinates(Vector2 firstBondDirection, bool isConnected, bool isSubLayout)
         {
             int numAtoms = molecule.Atoms.Count;
             int numBonds = molecule.Bonds.Count;
-            this.firstBondVector = firstBondVector;
+            this.firstBondVector = firstBondDirection;
 
             // if molecule contains only one Atom, don't fail, simply set
             // coordinates to simplest: 0,0. See bug #780545
@@ -1492,6 +1492,12 @@ namespace NCDK.Layout
                 // and are not placed here (since the index of each stub atom is > |ring|)
                 if (identityLibrary.AssignLayout(container))
                 {
+                    // Find a good scale factor that will roughly place the atoms BondLength apart.
+                    double averageBondLength = GeometryUtil.GetBondLengthAverage(container);
+
+                    // Scale the template to fit the bond length.
+                    GeometryUtil.ScaleMolecule(container, BondLength / averageBondLength);
+
                     for (int i = 0; i < ringSystem.Atoms.Count; i++)
                     {
                         IAtom atom = ringSystem.Atoms[i];
@@ -1759,13 +1765,17 @@ namespace NCDK.Layout
                             direction -= startVector;
                             Debug.WriteLine("Done placing neighbors of atom " + (molecule.Atoms.IndexOf(atom) + 1));
                         }
-                        else
+                        else if(placedAtoms.Atoms.Count == 1)
                         {
                             Debug.WriteLine("Less than or equal one atoms placed already");
                             Debug.WriteLine("Trying to get next bond vector.");
                             direction = atomPlacer.GetNextBondVector(atom, placedAtoms.Atoms[0],
                                                                      GeometryUtil.Get2DCenter(molecule), true);
 
+                        }
+                        else
+                        {
+                            direction = firstBondVector;
                         }
 
                         for (int f = 1; f < longestUnplacedChain.Atoms.Count; f++)

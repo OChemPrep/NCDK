@@ -77,7 +77,7 @@ namespace NCDK.Tools
         /// <returns>sssrf ring set of the molecule</returns>
         public IRingSet AssignAtomTypePropertiesToAtom(IAtomContainer molecule, bool aromaticity)
         {
-            SmilesGenerator sg = new SmilesGenerator();
+            SmilesGenerator sg = SmilesGenerator.Generic();
 
             Debug.WriteLine("assignAtomTypePropertiesToAtom Start ...");
             string hoseCode = "";

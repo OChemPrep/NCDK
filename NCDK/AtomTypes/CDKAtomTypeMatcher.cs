@@ -1,4 +1,4 @@
-/* Copyright (C) 2007-2015  Egon Willighagen <egonw@users.sf.net>
+﻿/* Copyright (C) 2007-2015  Egon Willighagen <egonw@users.sf.net>
  *                    2011  Nimish Gopal <nimishg@ebi.ac.uk>
  *                    2011  Syed Asad Rahman <asad@ebi.ac.uk>
  *                    2011  Gilleain Torrance <gilleain.torrance@gmail.com>
@@ -29,7 +29,7 @@ namespace NCDK.AtomTypes
 {
     /// <summary>
     /// Atom Type matcher that perceives atom types as defined in the CDK atom type list
-    /// <c>NCDK.Dict.Data.cdk-atom-types.owl</c>.
+    /// <c>NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml</c>.
     ///  If there is not an atom type defined for the tested atom, then <see langword="null"/> is returned.
     /// </summary>
     // @author         egonw
@@ -51,7 +51,7 @@ namespace NCDK.AtomTypes
 
         private CDKAtomTypeMatcher(IChemObjectBuilder builder, int mode)
         {
-            factory = AtomTypeFactory.GetInstance("NCDK.Dict.Data.cdk-atom-types.owl", builder);
+            factory = AtomTypeFactory.GetInstance("NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml", builder);
             this.mode = mode;
         }
 

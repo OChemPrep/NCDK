@@ -894,16 +894,14 @@ namespace NCDK.Geometries
         /// <returns>The geometric length of this bond</returns>
         public static double GetLength2D(IBond bond)
         {
-            if (bond.Begin == null || bond.End == null)
+            if (bond.Begin == null || bond.End == null || bond.Begin.Point2D.HasValue == false || bond.End.Point2D.HasValue == false)
             {
                 return 0.0;
             }
+
             Vector2 point1 = bond.Begin.Point2D.Value;
             Vector2 point2 = bond.End.Point2D.Value;
-            if (point1 == null || point2 == null)
-            {
-                return 0.0;
-            }
+
             return Vector2.Distance(point1, point2);
         }
 

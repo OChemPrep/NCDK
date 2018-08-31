@@ -554,7 +554,7 @@ namespace NCDK.Smiles
         /// Indicates whether output should be an aromatic SMILES.
         /// </summary>
         /// <param name="useAromaticityFlag">if false only SP2-hybridized atoms will be lower case (default), true=SP2 or aromaticity trigger lower case</param>
-        [Obsolete("Since 1.5.6, use " + nameof(Aromatic) + "()  - invoking this method does nothing")]
+        [Obsolete("Since 1.5.6, use " + nameof(SmiFlavor.UseAromaticSymbols) + "  - invoking this method does nothing")]
         public void SetUseAromaticityFlag(bool useAromaticityFlag)
         {
         }

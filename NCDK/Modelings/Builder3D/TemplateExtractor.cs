@@ -147,7 +147,7 @@ namespace NCDK.Modelings.Builder3D
             // RingPartitioner ringPartitioner=new RingPartitioner();
 
             Dictionary<string, string> hashRingSystems = new Dictionary<string, string>();
-            SmilesGenerator smilesGenerator = new SmilesGenerator();
+            SmilesGenerator smilesGenerator = SmilesGenerator.Generic();
 
             int counterRings = 0;
             int counterMolecules = 0;
@@ -304,7 +304,7 @@ namespace NCDK.Modelings.Builder3D
             Console.Out.WriteLine("Start make SMILES...");
             // QueryAtomContainer query=null;
             List<string> data = new List<string>();
-            SmilesGenerator smiles = new SmilesGenerator();
+            SmilesGenerator smiles = SmilesGenerator.Generic();
             try
             {
                 Console.Out.WriteLine("Start...");

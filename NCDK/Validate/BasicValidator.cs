@@ -1,4 +1,4 @@
-/* Copyright (C) 2008-2010  Egon Willighagen <egonw@users.sf.net>
+﻿/* Copyright (C) 2008-2010  Egon Willighagen <egonw@users.sf.net>
  *                    2009  Rajarshi Guha <rajarshi.guha@gmail.com>
  *
  * Contact: cdk-devel@lists.sourceforge.net
@@ -353,7 +353,7 @@ namespace NCDK.Validate
             ValidationTest checkBondSum = new ValidationTest(atom, "The atom's total bond order is too high.");
             try
             {
-                AtomTypeFactory structgenATF = AtomTypeFactory.GetInstance("NCDK.Dict.Data.cdk-atom-types.owl", atom.Builder);
+                AtomTypeFactory structgenATF = AtomTypeFactory.GetInstance("NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml", atom.Builder);
                 int bos = (int)molecule.GetBondOrderSum(atom);
                 var atomTypes = structgenATF.GetAtomTypes(atom.Symbol).ToList();
                 if (atomTypes.Count == 0)
