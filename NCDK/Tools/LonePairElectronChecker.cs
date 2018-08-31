@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2006-2007  Miguel Rojas <miguel.rojas@uni-koeln.de>
+/* Copyright (C) 2006-2007  Miguel Rojas <miguel.rojas@uni-koeln.de>
  *                    2007  Egon Willighagen <egonw@users.sf.net>
  *
  * Contact: cdk-devel@lists.sourceforge.net
@@ -41,7 +41,7 @@ namespace NCDK.Tools
         {
             if (factory == null)
             {
-                factory = AtomTypeFactory.GetInstance("NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml", builder);
+                factory = AtomTypeFactory.GetInstance("NCDK.Dict.Data.cdk-atom-types.owl", builder);
             }
         }
 

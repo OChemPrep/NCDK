@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2004-2007  The Chemistry Development Kit (CDK) project
+/* Copyright (C) 2004-2007  The Chemistry Development Kit (CDK) project
  *
  *  Contact: cdk-devel@lists.sourceforge.net
  *
@@ -44,7 +44,7 @@ namespace NCDK.Tools
         protected AtomTypeFactory structgenATF;
 
         public SmilesValencyChecker()
-            : this("NCDK.Dict.Resources.Data.cdk-atom-types_owl.xml")
+            : this("NCDK.Dict.Data.cdk-atom-types.owl")
         { }
 
         public SmilesValencyChecker(string atomTypeList)

@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2008  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (C) 2008  Egon Willighagen <egonw@users.sf.net>
  *
  * Contact: cdk-devel@lists.sourceforge.net
  *
@@ -37,8 +37,8 @@ namespace NCDK.AtomTypes
     public class SybylAtomTypeMatcher : IAtomTypeMatcher
     {
 
-        private const string SYBYL_ATOM_TYPE_LIST = "NCDK.Dict.Resources.Data.sybyl-atom-types.owl";
-        private const string CDK_TO_SYBYL_MAP = "NCDK.Dict.Resources.Data.cdk-sybyl-mappings.owl";
+        private const string SYBYL_ATOM_TYPE_LIST = "NCDK.Dict.Data.sybyl-atom-types.owl";
+        private const string CDK_TO_SYBYL_MAP = "NCDK.Dict.Data.cdk-sybyl-mappings.owl";
 
         private AtomTypeFactory factory;
         private CDKAtomTypeMatcher cdkMatcher;
