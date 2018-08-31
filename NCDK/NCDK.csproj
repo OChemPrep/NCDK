@@ -331,6 +331,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SgroupType.tt.cs</LastGenOutput>
     </Content>
+    <Compile Include="ResourceLoader.cs" />
     <Compile Include="SGroups\SgroupType.tt.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -453,7 +454,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Association.tt</DependentUpon>
     </Compile>
-    <Compile Include="ResourceLoader.cs" />
     <Compile Include="TT\ChemObject.tt.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
