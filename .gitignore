@@ -38,7 +38,7 @@ Documentation/Help/
 [Xx]86/*
 [Bb]uild/
 bld/
-
+[Bb]in/
 [Oo]bj/
 
 # Visual Studio 2015 cache/options directory
@@ -272,5 +272,3 @@ ModelManifest.xml
 !NCDKTests/**/*.log
 !NCDK/x86/ncdk_libinchi.dll
 !NCDK/x64/ncdk_libinchi.dll
-!NCDK/bin/*.dll
-!NCDK/bin/*.pdb
