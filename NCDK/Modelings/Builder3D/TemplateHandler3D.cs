@@ -93,14 +93,10 @@ namespace NCDK.Modelings.Builder3D
         {
             try
             {
-                using (var gin = GetType().Assembly.GetManifestResourceStream(GetType(), TEMPLATE_PATH))
-                using (var ins = new GZipStream(gin, CompressionMode.Decompress))
-                using (EnumerableSDFReader sdfr = new EnumerableSDFReader(ins, builder))
+                using(var gin = GetType().Assembly.GetManifestResourceStream(GetType(), TEMPLATE_PATH))
+                using(var ins = new GZipStream(gin, CompressionMode.Decompress))
                 {
-                    foreach (var mol in sdfr)
-                    {
-                        AddTemplateMol(mol);
-                    }
+                    LoadTemplates(ins);
                 }
             }
             catch (IOException e)
@@ -108,6 +104,19 @@ namespace NCDK.Modelings.Builder3D
                 throw new CDKException("Could not load ring templates", e);
             }
         }
+
+
+        public void LoadTemplates(Stream stream)
+        {
+            using(EnumerableSDFReader sdfr = new EnumerableSDFReader(stream, builder))
+            {
+                foreach(var mol in sdfr)
+                {
+                    AddTemplateMol(mol);
+                }
+            }
+        }
+
 
         public static BitArray GetBitSetFromFile(IEnumerable<string> st)
         {

@@ -100,9 +100,9 @@ namespace NCDK.Smiles.SMARTS
 
         /// <summary>
         /// Obtain the mappings of the query pattern against the target compound. Any
-        /// initialisations required for the SMARTS match are automatically
+        /// initializations required for the SMARTS match are automatically
         /// performed. The Daylight aromaticity model is applied clearing existing
-        /// aromaticity. <b>Do not use this for matching multiple SMARTS againsts the
+        /// aromaticity. <b>Do not use this for matching multiple SMARTS against the
         /// same container</b>.
         /// </summary>
         /// <example>
@@ -113,12 +113,12 @@ namespace NCDK.Smiles.SMARTS
         /// <returns>mappings of the query to the target compound</returns>
         public override Mappings MatchAll(IAtomContainer target)
         {
-            // TODO: prescreen target for element frequency before intialising
+            // TODO: prescreen target for element frequency before initializing
             // invariants and applying aromaticity, requires pattern enumeration -
             // see http://www.daylight.com/meetings/emug00/Sayle/substruct.html.
 
             // assign additional atom invariants for SMARTS queries, a CDK quirk
-            // as each atom knows not which molecule from wence it came
+            // as each atom knows not which molecule from whence it came
             SmartsMatchers.Prepare(target, ringInfo);
 
             // apply the daylight aromaticity model
