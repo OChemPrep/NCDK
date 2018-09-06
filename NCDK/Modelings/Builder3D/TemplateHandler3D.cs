@@ -53,7 +53,7 @@ namespace NCDK.Modelings.Builder3D
 
         private readonly List<IAtomContainer> templates = new List<IAtomContainer>();
         private readonly List<IQueryAtomContainer> queries = new List<IQueryAtomContainer>();
-        private readonly List<Pattern> patterns  = new List<Pattern>();
+        private readonly List<Pattern> patterns = new List<Pattern>();
 
         private TemplateHandler3D()
         {
@@ -66,7 +66,7 @@ namespace NCDK.Modelings.Builder3D
             templates.Add(mol);
             var query = QueryAtomContainerCreator.CreateAnyAtomAnyBondContainer(mol, false);
             queries.Add(query);
-            for (int i = 0; i < mol.Atoms.Count; i++)
+            for(int i = 0; i < mol.Atoms.Count; i++)
             {
                 query.Atoms[i].Point3D = mol.Atoms[i].Point3D;
             }
@@ -81,26 +81,33 @@ namespace NCDK.Modelings.Builder3D
         {
             try
             {
-                using (var gin = GetType().Assembly.GetManifestResourceStream(GetType(), TemplatePath))
-                using (var ins = new GZipStream(gin, CompressionMode.Decompress))
-                using (var sdfr = new EnumerableSDFReader(ins, builder))
+                using(var gin = GetType().Assembly.GetManifestResourceStream(GetType(), TemplatePath))
+                using(var ins = new GZipStream(gin, CompressionMode.Decompress))
                 {
-                    foreach (var mol in sdfr)
-                    {
-                        AddTemplateMol(mol);
-                    }
+                    LoadTemplates(ins);
                 }
             }
-            catch (IOException e)
+            catch(IOException e)
             {
                 throw new CDKException("Could not load ring templates", e);
+            }
+        }
+
+        public void LoadTemplates(Stream stream)
+        {
+            using(EnumerableSDFReader sdfr = new EnumerableSDFReader(stream, builder))
+            {
+                foreach(var mol in sdfr)
+                {
+                    AddTemplateMol(mol);
+                }
             }
         }
 
         public static BitArray GetBitSetFromFile(IEnumerable<string> st)
         {
             var bitSet = new BitArray(1024);
-            foreach (var s in st)
+            foreach(var s in st)
                 bitSet.Set(int.Parse(s, NumberFormatInfo.InvariantInfo), true);
             return bitSet;
         }
@@ -115,10 +122,10 @@ namespace NCDK.Modelings.Builder3D
             IRingSet largestRingSet = null;
             int atomNumber = 0;
             IAtomContainer container = null;
-            foreach (var ringSystem  in ringSystems)
+            foreach(var ringSystem in ringSystems)
             {
                 container = GetAllInOneContainer(ringSystem);
-                if (atomNumber < container.Atoms.Count)
+                if(atomNumber < container.Atoms.Count)
                 {
                     atomNumber = container.Atoms.Count;
                     largestRingSet = ringSystem;
@@ -131,23 +138,23 @@ namespace NCDK.Modelings.Builder3D
         {
             var resultContainer = ringSet.Builder.NewAtomContainer();
             var containers = RingSetManipulator.GetAllAtomContainers(ringSet);
-            foreach (var container in containers)
+            foreach(var container in containers)
                 resultContainer.Add(container);
             return resultContainer;
         }
 
         private static bool IsExactMatch(IAtomContainer query, IReadOnlyDictionary<IChemObject, IChemObject> mapping)
         {
-            foreach (IAtom src in query.Atoms)
+            foreach(IAtom src in query.Atoms)
             {
                 var dst = (IAtom)mapping[src];
-                if (src.Symbol != dst.Symbol)
+                if(src.Symbol != dst.Symbol)
                     return false;
             }
-            foreach (IBond src in query.Bonds)
+            foreach(IBond src in query.Bonds)
             {
                 var dst = (IBond)mapping[src];
-                if (src.Order != dst.Order)
+                if(src.Order != dst.Order)
                     return false;
             }
             return true;
@@ -162,7 +169,7 @@ namespace NCDK.Modelings.Builder3D
         /// <param name="numberOfRingAtoms">Number of atoms in the specified ring</param>
         public void MapTemplates(IAtomContainer mol, int numberOfRingAtoms)
         {
-            if (!templates.Any())
+            if(!templates.Any())
                 LoadTemplates();
 
             IAtomContainer best = null;
@@ -170,46 +177,46 @@ namespace NCDK.Modelings.Builder3D
             IAtomContainer secondBest = null;
             Dictionary<IChemObject, IChemObject> secondBestMap = null;
 
-            for (int i = 0; i < templates.Count; i++)
+            for(int i = 0; i < templates.Count; i++)
             {
                 var query = queries[i];
 
                 //if the atom count is different, it can't be right anyway
-                if (query.Atoms.Count != mol.Atoms.Count)
+                if(query.Atoms.Count != mol.Atoms.Count)
                 {
                     continue;
                 }
 
                 var mappings = patterns[i].MatchAll(mol);
-                foreach (var map in mappings.ToAtomBondMap())
+                foreach(var map in mappings.ToAtomBondMap())
                 {
-                    if (IsExactMatch(query, map))
+                    if(IsExactMatch(query, map))
                     {
                         AssignCoords(query, map);
                         return;
                     }
-                    else if (query.Bonds.Count == mol.Bonds.Count)
+                    else if(query.Bonds.Count == mol.Bonds.Count)
                     {
                         best = query;
                         bestMap = new Dictionary<IChemObject, IChemObject>();
-                        foreach (var e in map)
+                        foreach(var e in map)
                             bestMap.Add(e.Key, e.Value);
                     }
                     else
                     {
                         secondBest = query;
                         secondBestMap = new Dictionary<IChemObject, IChemObject>();
-                        foreach (var e in map)
+                        foreach(var e in map)
                             secondBestMap.Add(e.Key, e.Value);
                     }
                 }
             }
 
-            if (best != null)
+            if(best != null)
             {
                 AssignCoords(best, bestMap);
             }
-            else if (secondBest != null)
+            else if(secondBest != null)
             {
                 AssignCoords(secondBest, secondBestMap);
             }
@@ -221,7 +228,7 @@ namespace NCDK.Modelings.Builder3D
 
         private static void AssignCoords(IAtomContainer template, IReadOnlyDictionary<IChemObject, IChemObject> map)
         {
-            foreach (var src in template.Atoms)
+            foreach(var src in template.Atoms)
             {
                 var dst = (IAtom)map[src];
                 dst.Point3D = src.Point3D;
