@@ -28123,9 +28123,9 @@ namespace NCDK
         <member name="M:NCDK.Smiles.SMARTS.SmartsPattern.MatchAll(NCDK.IAtomContainer)">
             <summary>
             Obtain the mappings of the query pattern against the target compound. Any
-            initialisations required for the SMARTS match are automatically
+            initializations required for the SMARTS match are automatically
             performed. The Daylight aromaticity model is applied clearing existing
-            aromaticity. <b>Do not use this for matching multiple SMARTS againsts the
+            aromaticity. <b>Do not use this for matching multiple SMARTS against the
             same container</b>.
             </summary>
             <example>
