@@ -177,7 +177,7 @@ namespace NCDK.Modelings.Builder3D
                 }
                 return molecule;
             }
-            //Assing Atoms to Rings,Aliphatic and Atomtype
+            //Assigning Atoms to Rings, Aliphatic, and Atomtype
             IRingSet ringSetMolecule = ffc.AssignAtomTyps(molecule);
             IRingSet largestRingSet = null;
             int numberOfRingAtoms = 0;
