@@ -159,6 +159,7 @@ namespace NCDK.Modelings.Builder3D
                 resultContainer.Add(container);
             return resultContainer;
         }
+        
 
         private bool IsExactMatch(IAtomContainer query,
                                  IDictionary<IChemObject, IChemObject> mapping)
@@ -166,15 +167,28 @@ namespace NCDK.Modelings.Builder3D
             foreach (IAtom src in query.Atoms)
             {
                 IAtom dst = (IAtom)mapping[src];
-                if (src.Symbol != dst.Symbol)
+                if(string.IsNullOrEmpty(src.Symbol) || string.IsNullOrEmpty(dst.Symbol))
+                {
+                    continue;
+                }
+
+                if(src.Symbol != dst.Symbol)
                     return false;
             }
+
             foreach (IBond src in query.Bonds)
             {
                 IBond dst = (IBond)mapping[src];
-                if (src.Order != dst.Order)
+
+                if(src.Order == BondOrder.Unset || dst.Order == BondOrder.Unset)
+                {
+                    continue;
+                }
+
+                if(src.Order != dst.Order)
                     return false;
             }
+
             return true;
         }
 
@@ -205,25 +219,37 @@ namespace NCDK.Modelings.Builder3D
                     continue;
                 }
 
+                int bondMatchCount = 0;
+                int lowMatchCount = 0;
+
                 Mappings mappings = patterns[i].MatchAll(mol);
                 foreach (IDictionary<IChemObject, IChemObject> map in mappings.ToAtomBondMap())
                 {
                     if (IsExactMatch(query, map))
                     {
                         AssignCoords(query, map);
+                        Console.WriteLine("Found exact match at index " + i + ": " + templates[i].ToString());
                         return;
                     }
                     else if (query.Bonds.Count == mol.Bonds.Count)
                     {
                         best = query;
                         bestMap = new Dictionary<IChemObject, IChemObject>(map);
+                        bondMatchCount++;
                     }
                     else
                     {
                         secondBest = query;
                         secondBestMap = new Dictionary<IChemObject, IChemObject>(map);
+                        lowMatchCount++;
                     }
                 }
+
+                if(bondMatchCount > 0)
+                    Console.WriteLine("Found " + bondMatchCount + " bond count matches at index " + i + ": " + templates[i].ToString());
+
+                if(lowMatchCount > 0)
+                    Console.WriteLine("Found " + lowMatchCount + " low matches at index " + i + ": " + templates[i].ToString());
             }
 
             if (best != null)
