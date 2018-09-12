@@ -151,12 +151,23 @@ namespace NCDK.Modelings.Builder3D
             foreach(IAtom src in query.Atoms)
             {
                 var dst = (IAtom)mapping[src];
+                if(string.IsNullOrEmpty(src.Symbol) || string.IsNullOrEmpty(dst.Symbol))
+                {
+                    continue;
+                }
+
                 if(src.Symbol != dst.Symbol)
                     return false;
             }
             foreach(IBond src in query.Bonds)
             {
                 var dst = (IBond)mapping[src];
+
+                if(src.Order == BondOrder.Unset || dst.Order == BondOrder.Unset)
+                {
+                    continue;
+                }
+
                 if(src.Order != dst.Order)
                     return false;
             }
