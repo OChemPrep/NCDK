@@ -52,7 +52,7 @@ namespace NCDK.Modelings.Builder3D
         private readonly List<IAtomContainer> templates = new List<IAtomContainer>();
         bool _defaultTemplatesLoaded = false;
         private readonly List<IQueryAtomContainer> queries = new List<IQueryAtomContainer>();
-        private readonly List<Pattern> patterns  = new List<Pattern>();
+        private readonly List<Pattern> patterns = new List<Pattern>();
 
         private static TemplateHandler3D self = null;
 
@@ -66,7 +66,7 @@ namespace NCDK.Modelings.Builder3D
         {
             get
             {
-                if (self == null)
+                if(self == null)
                 {
                     self = new TemplateHandler3D();
                 }
@@ -77,9 +77,9 @@ namespace NCDK.Modelings.Builder3D
         private void AddTemplateMol(IAtomContainer mol)
         {
             templates.Add(mol);
-            QueryAtomContainer query = QueryAtomContainerCreator.CreateAnyAtomAnyBondContainer(mol, false);
+            QueryAtomContainer query = QueryAtomContainerCreator.CreateAnyAtomContainer(mol, false);
             queries.Add(query);
-            for (int i = 0; i < mol.Atoms.Count; i++)
+            for(int i = 0; i < mol.Atoms.Count; i++)
             {
                 query.Atoms[i].Point3D = mol.Atoms[i].Point3D;
             }
@@ -102,7 +102,7 @@ namespace NCDK.Modelings.Builder3D
 
                 _defaultTemplatesLoaded = true;
             }
-            catch (IOException e)
+            catch(IOException e)
             {
                 throw new CDKException("Could not load ring templates", e);
             }
@@ -124,7 +124,7 @@ namespace NCDK.Modelings.Builder3D
         public static BitArray GetBitSetFromFile(IEnumerable<string> st)
         {
             BitArray bitSet = new BitArray(1024);
-            foreach (var s in st)
+            foreach(var s in st)
                 bitSet.Set(int.Parse(s), true);
             return bitSet;
         }
@@ -139,10 +139,10 @@ namespace NCDK.Modelings.Builder3D
             IRingSet largestRingSet = null;
             int atomNumber = 0;
             IAtomContainer container = null;
-            for (int i = 0; i < ringSystems.Count; i++)
+            for(int i = 0; i < ringSystems.Count; i++)
             {
                 container = GetAllInOneContainer(ringSystems[i]);
-                if (atomNumber < container.Atoms.Count)
+                if(atomNumber < container.Atoms.Count)
                 {
                     atomNumber = container.Atoms.Count;
                     largestRingSet = ringSystems[i];
@@ -155,40 +155,27 @@ namespace NCDK.Modelings.Builder3D
         {
             IAtomContainer resultContainer = ringSet.Builder.NewAtomContainer();
             var containers = RingSetManipulator.GetAllAtomContainers(ringSet);
-            foreach (var container in containers)
+            foreach(var container in containers)
                 resultContainer.Add(container);
             return resultContainer;
         }
-        
+
 
         private bool IsExactMatch(IAtomContainer query,
                                  IDictionary<IChemObject, IChemObject> mapping)
         {
-            foreach (IAtom src in query.Atoms)
+            foreach(IQueryAtom src in query.Atoms)
             {
                 IAtom dst = (IAtom)mapping[src];
-                if(string.IsNullOrEmpty(src.Symbol) || string.IsNullOrEmpty(dst.Symbol))
-                {
-                    continue;
-                }
-
-                if(src.Symbol != dst.Symbol)
+                if(!src.Matches(dst))
                     return false;
             }
-
-            foreach (IBond src in query.Bonds)
+            foreach(IQueryBond src in query.Bonds)
             {
                 IBond dst = (IBond)mapping[src];
-
-                if(src.Order == BondOrder.Unset || dst.Order == BondOrder.Unset)
-                {
-                    continue;
-                }
-
-                if(src.Order != dst.Order)
+                if(!src.Matches(dst))
                     return false;
             }
-
             return true;
         }
 
@@ -201,7 +188,7 @@ namespace NCDK.Modelings.Builder3D
         /// <param name="numberOfRingAtoms">Number of atoms in the specified ring</param>
         public void MapTemplates(IAtomContainer mol, int numberOfRingAtoms)
         {
-            if (!_defaultTemplatesLoaded)
+            if(!_defaultTemplatesLoaded)
                 LoadTemplates();
 
             IAtomContainer best = null;
@@ -209,12 +196,12 @@ namespace NCDK.Modelings.Builder3D
             IAtomContainer secondBest = null;
             IDictionary<IChemObject, IChemObject> secondBestMap = null;
 
-            for (int i = 0; i < templates.Count; i++)
+            for(int i = 0; i < templates.Count; i++)
             {
                 IAtomContainer query = queries[i];
 
                 //if the atom count is different, it can't be right anyway
-                if (query.Atoms.Count != mol.Atoms.Count)
+                if(query.Atoms.Count != mol.Atoms.Count)
                 {
                     continue;
                 }
@@ -223,15 +210,15 @@ namespace NCDK.Modelings.Builder3D
                 int lowMatchCount = 0;
 
                 Mappings mappings = patterns[i].MatchAll(mol);
-                foreach (IDictionary<IChemObject, IChemObject> map in mappings.ToAtomBondMap())
+                foreach(IDictionary<IChemObject, IChemObject> map in mappings.ToAtomBondMap())
                 {
-                    if (IsExactMatch(query, map))
+                    if(IsExactMatch(query, map))
                     {
                         AssignCoords(query, map);
                         Console.WriteLine("Found exact match at index " + i + ": " + templates[i].ToString());
                         return;
                     }
-                    else if (query.Bonds.Count == mol.Bonds.Count)
+                    else if(query.Bonds.Count == mol.Bonds.Count)
                     {
                         best = query;
                         bestMap = new Dictionary<IChemObject, IChemObject>(map);
@@ -252,11 +239,11 @@ namespace NCDK.Modelings.Builder3D
                     Console.WriteLine("Found " + lowMatchCount + " low matches at index " + i + ": " + templates[i].ToString());
             }
 
-            if (best != null)
+            if(best != null)
             {
                 AssignCoords(best, bestMap);
             }
-            else if (secondBest != null)
+            else if(secondBest != null)
             {
                 AssignCoords(secondBest, secondBestMap);
             }
@@ -267,7 +254,7 @@ namespace NCDK.Modelings.Builder3D
         private void AssignCoords(IAtomContainer template,
                                   IDictionary<IChemObject, IChemObject> map)
         {
-            foreach (IAtom src in template.Atoms)
+            foreach(IAtom src in template.Atoms)
             {
                 IAtom dst = (IAtom)map[src];
                 dst.Point3D = src.Point3D;

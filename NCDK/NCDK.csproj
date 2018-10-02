@@ -66,10 +66,12 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\packages\MathNet.Numerics.Signed.3.20.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.Signed.4.5.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -932,6 +934,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChemObjectBuilder.tt.cs</LastGenOutput>
     </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAtom.cs" />
@@ -1861,7 +1864,6 @@
     <EmbeddedResource Include="qsar-descriptors.set" />
     <None Include="LibIO\CML\ConfigCML.ttinclude" />
     <None Include="Numerics\GenerationConfig.ttinclude" />
-    <None Include="packages.config" />
     <None Include="reaction-types.set" />
   </ItemGroup>
   <ItemGroup>
