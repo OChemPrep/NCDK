@@ -263,3 +263,5 @@ ModelManifest.xml
 !NCDK/x64/ncdk_libinchi.dll
 !NCDK/bin/*.dll
 !NCDK/bin/*.pdb
+NCDK/bin
+NCDK/obj
