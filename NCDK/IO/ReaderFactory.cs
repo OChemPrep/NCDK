@@ -206,6 +206,12 @@ namespace NCDK.IO
             var type = GetReaderType(format);
             try
             {
+                // Alchemie - Mono doesn't support Invoke or parts of Reflection including GetConstructor.
+                if(type.Equals(MDLV2000Format.Instance.GetType()))
+                {
+                    return new MDLV2000Reader(input);
+                }
+
                 ISimpleChemObjectReader coReader = (ISimpleChemObjectReader)type.GetConstructor(new Type[] { typeof(TextReader) }).Invoke(new object[] { input });
                 return coReader;
             }
