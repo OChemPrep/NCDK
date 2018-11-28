@@ -200,7 +200,7 @@
 
   <ItemGroup>
     <PackageReference Include="dotNetRDF" Version="2.1.0" />
-    <PackageReference Include="MathNet.Numerics.Signed" Version="4.6.0" />
+    <PackageReference Include="MathNet.Numerics.Signed" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -265,22 +265,6 @@
     <None Update="Numerics\Vector.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Vector.tt.cs</LastGenOutput>
-    </None>
-    <None Update="QSAR\Descriptors\Atomic\%24AtomicDescriptor.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>$AtomicDescriptor.tt.cs</LastGenOutput>
-    </None>
-    <None Update="QSAR\Descriptors\Atomic\%24ProtonDescriptor.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>$ProtonDescriptor.tt.cs</LastGenOutput>
-    </None>
-    <None Update="QSAR\Descriptors\Bonds\%24BondDescriptor.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>$BondDescriptor.tt.cs</LastGenOutput>
-    </None>
-    <None Update="Reactions\Types\%24ExampleCodes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>$ExampleCodes.cs</LastGenOutput>
     </None>
     <None Update="TT\AdductFormula.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -509,26 +493,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Vector.tt</DependentUpon>
-    </Compile>
-    <Compile Update="QSAR\Descriptors\Atomic\%24AtomicDescriptor.tt.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>$AtomicDescriptor.tt</DependentUpon>
-    </Compile>
-    <Compile Update="QSAR\Descriptors\Atomic\%24ProtonDescriptor.tt.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>$ProtonDescriptor.tt</DependentUpon>
-    </Compile>
-    <Compile Update="QSAR\Descriptors\Bonds\%24BondDescriptor.tt.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>$BondDescriptor.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Reactions\Types\%24ExampleCodes.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>$ExampleCodes.tt</DependentUpon>
     </Compile>
     <Compile Update="TT\AdductFormula.tt.cs">
       <DesignTime>True</DesignTime>
