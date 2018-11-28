@@ -50,6 +50,7 @@ namespace NCDK.Modelings.Builder3D
     {
         private static readonly IChemObjectBuilder builder = Silent.ChemObjectBuilder.Instance;
         private const string TemplatePath = "Data.ringTemplateStructures.sdf.gz";
+        bool _defaultTemplatesLoaded = false;
 
         private readonly List<IAtomContainer> templates = new List<IAtomContainer>();
         private readonly List<IQueryAtomContainer> queries = new List<IQueryAtomContainer>();
@@ -86,6 +87,8 @@ namespace NCDK.Modelings.Builder3D
                 {
                     LoadTemplates(ins);
                 }
+
+                _defaultTemplatesLoaded = true;
             }
             catch(IOException e)
             {
@@ -169,7 +172,7 @@ namespace NCDK.Modelings.Builder3D
         /// <param name="numberOfRingAtoms">Number of atoms in the specified ring</param>
         public void MapTemplates(IAtomContainer mol, int numberOfRingAtoms)
         {
-            if(!templates.Any())
+            if(!_defaultTemplatesLoaded)
                 LoadTemplates();
 
             IAtomContainer best = null;
