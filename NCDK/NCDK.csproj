@@ -199,7 +199,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dotNetRDF" Version="2.1.0" />
     <PackageReference Include="MathNet.Numerics.Signed" Version="4.7.0" />
   </ItemGroup>
 
@@ -438,6 +437,12 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   
+  <ItemGroup>
+    <Compile Remove="IO\RDF\CDKOWLReader.cs" />
+    <Compile Remove="IO\RDF\CDKOWLWriter.cs" />
+    <Compile Remove="LibIO\DotNetRDF\Convertor.cs" />
+    <Compile Remove="IO\Formats\CDKOWLFormat.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Update="Beam\Core\Configuration.tt.cs">
       <DesignTime>True</DesignTime>
