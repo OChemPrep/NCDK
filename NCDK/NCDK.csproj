@@ -113,6 +113,8 @@
     <None Remove="reaction-types.set" />
     <None Remove="Smiles\Normalize\fixsmiles.xml" />
     <None Remove="Templates\Data\list_aminoacids.cml" />
+    <None Remove="x64\libinchi.dll" />
+    <None Remove="x86\libinchi.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -424,12 +426,6 @@
     <None Update="TT\Substance.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Substance.tt.cs</LastGenOutput>
-    </None>
-    <None Update="x64\libinchi.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x86\libinchi.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   
