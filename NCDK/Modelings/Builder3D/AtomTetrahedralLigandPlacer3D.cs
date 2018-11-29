@@ -72,22 +72,22 @@ namespace NCDK.Modelings.Builder3D
             IAtom refAtom = null;
             IAtom atomC = null;
             int nwanted = 0;
-            for (int i = 0; i < atomContainer.Atoms.Count; i++)
+            for(int i = 0; i < atomContainer.Atoms.Count; i++)
             {
                 refAtom = atomContainer.Atoms[i];
-                if (!refAtom.AtomicNumber.Equals(NaturalElements.H.AtomicNumber) && HasUnsetNeighbour(refAtom, atomContainer))
+                if(!refAtom.AtomicNumber.Equals(NaturalElements.H.AtomicNumber) && HasUnsetNeighbour(refAtom, atomContainer))
                 {
                     IAtomContainer noCoords = GetUnsetAtomsInAtomContainer(refAtom, atomContainer);
                     IAtomContainer withCoords = GetPlacedAtomsInAtomContainer(refAtom, atomContainer);
-                    if (withCoords.Atoms.Count > 0)
+                    if(withCoords.Atoms.Count > 0)
                     {
                         atomC = GetPlacedHeavyAtomInAtomContainer(withCoords.Atoms[0], refAtom, atomContainer);
                     }
-                    if (refAtom.FormalNeighbourCount == 0 && refAtom.AtomicNumber.Equals(NaturalElements.C.AtomicNumber))
+                    if(refAtom.FormalNeighbourCount == 0 && refAtom.AtomicNumber.Equals(NaturalElements.C.AtomicNumber))
                     {
                         nwanted = noCoords.Atoms.Count;
                     }
-                    else if (refAtom.FormalNeighbourCount == 0 && !refAtom.AtomicNumber.Equals(NaturalElements.C.AtomicNumber))
+                    else if(refAtom.FormalNeighbourCount == 0 && !refAtom.AtomicNumber.Equals(NaturalElements.C.AtomicNumber))
                     {
                         nwanted = 4;
                     }
@@ -97,7 +97,7 @@ namespace NCDK.Modelings.Builder3D
                     }
                     Vector3[] newPoints = Get3DCoordinatesForLigands(refAtom, noCoords, withCoords, atomC, nwanted,
                             DefaultBondLengthH, -1);
-                    for (int j = 0; j < noCoords.Atoms.Count; j++)
+                    for(int j = 0; j < noCoords.Atoms.Count; j++)
                     {
                         IAtom ligand = noCoords.Atoms[j];
                         Vector3 newPoint = RescaleBondLength(refAtom, ligand, newPoints[j]);
@@ -126,7 +126,7 @@ namespace NCDK.Modelings.Builder3D
             double? d2 = atom2.CovalentRadius;
             // in case we have no covalent radii, set to 1.0
             double distance = (d1 == null || d2 == null) ? 1 : d1.Value + d2.Value;
-            if (pSet != null)
+            if(pSet != null)
             {
                 distance = GetDistanceValue(atom1.AtomTypeName, atom2.AtomTypeName);
             }
@@ -179,35 +179,35 @@ namespace NCDK.Modelings.Builder3D
         {
             Vector3[] newPoints = new Vector3[1];
 
-            if (noCoords.Atoms.Count == 0 && withCoords.Atoms.Count == 0)
+            if(noCoords.Atoms.Count == 0 && withCoords.Atoms.Count == 0)
             {
                 return newPoints;
             }
 
             // too many ligands at present
-            if (withCoords.Atoms.Count > 3)
+            if(withCoords.Atoms.Count > 3)
             {
                 return newPoints;
             }
 
             BondOrder refMaxBondOrder = refAtom.MaxBondOrder;
-            if (refAtom.FormalNeighbourCount == 1)
+            if(refAtom.FormalNeighbourCount == 1)
             {
                 //            WTF???
             }
-            else if (refAtom.FormalNeighbourCount == 2 || refMaxBondOrder == BondOrder.Triple)
+            else if(refAtom.FormalNeighbourCount == 2 || refMaxBondOrder == BondOrder.Triple)
             {
                 //sp
-                if (angle == -1)
+                if(angle == -1)
                 {
                     angle = SP_ANGLE;
                 }
                 newPoints[0] = Get3DCoordinatesForSPLigands(refAtom, withCoords, length, angle);
             }
-            else if (refAtom.FormalNeighbourCount == 3 || (refMaxBondOrder == BondOrder.Double))
+            else if(refAtom.FormalNeighbourCount == 3 || (refMaxBondOrder == BondOrder.Double))
             {
                 //sp2
-                if (angle == -1)
+                if(angle == -1)
                 {
                     angle = SP2_ANGLE;
                 }
@@ -215,7 +215,7 @@ namespace NCDK.Modelings.Builder3D
                 {
                     newPoints = Get3DCoordinatesForSP2Ligands(refAtom, noCoords, withCoords, atomC, length, angle);
                 }
-                catch (Exception ex1)
+                catch(Exception ex1)
                 {
                     //                Debug.WriteLine("Get3DCoordinatesForLigandsERROR: Cannot place SP2 Ligands due to:" + ex1.ToString());
                     throw new CDKException("Cannot place sp2 substituents\n" + ex1.Message, ex1);
@@ -228,7 +228,7 @@ namespace NCDK.Modelings.Builder3D
                 {
                     newPoints = Get3DCoordinatesForSP3Ligands(refAtom, noCoords, withCoords, atomC, nwanted, length, angle);
                 }
-                catch (Exception ex1)
+                catch(Exception ex1)
                 {
                     //                Debug.WriteLine("Get3DCoordinatesForLigandsERROR: Cannot place SP3 Ligands due to:" + ex1.ToString());
                     throw new CDKException("Cannot place sp3 substituents\n" + ex1.Message, ex1);
@@ -264,18 +264,18 @@ namespace NCDK.Modelings.Builder3D
         {
             //Debug.WriteLine(" SP2 Ligands start");
             Vector3[] newPoints = new Vector3[1];
-            if (angle < 0)
+            if(angle < 0)
             {
                 angle = SP2_ANGLE;
             }
-            if (withCoords.Atoms.Count >= 2)
+            if(withCoords.Atoms.Count >= 2)
             {
                 //Debug.WriteLine("Wanted:1 "+noCoords.Atoms.Count);
                 newPoints[0] = Calculate3DCoordinatesSP2_1(refAtom.Point3D.Value, (withCoords.Atoms[0]).Point3D.Value,
                         (withCoords.Atoms[1]).Point3D.Value, length, -1 * angle);
 
             }
-            else if (withCoords.Atoms.Count <= 1)
+            else if(withCoords.Atoms.Count <= 1)
             {
                 //Debug.WriteLine("NoCoords 2:"+noCoords.Atoms.Count);
                 newPoints = Calculate3DCoordinatesSP2_2(refAtom.Point3D.Value, (withCoords.Atoms[0]).Point3D.Value,
@@ -305,26 +305,26 @@ namespace NCDK.Modelings.Builder3D
             Vector3[] newPoints = Array.Empty<Vector3>();
             Vector3 aPoint = refAtom.Point3D.Value;
             int nwithCoords = withCoords.Atoms.Count;
-            if (angle < 0)
+            if(angle < 0)
             {
                 angle = TETRAHEDRAL_ANGLE;
             }
-            if (nwithCoords == 0)
+            if(nwithCoords == 0)
             {
                 newPoints = Calculate3DCoordinates0(refAtom.Point3D.Value, nwanted, length);
             }
-            else if (nwithCoords == 1)
+            else if(nwithCoords == 1)
             {
                 newPoints = Calculate3DCoordinates1(aPoint, (withCoords.Atoms[0]).Point3D.Value,
                         atomC?.Point3D, nwanted, length, angle);
             }
-            else if (nwithCoords == 2)
+            else if(nwithCoords == 2)
             {
                 Vector3 bPoint = withCoords.Atoms[0].Point3D.Value;
                 Vector3 cPoint = withCoords.Atoms[1].Point3D.Value;
                 newPoints = Calculate3DCoordinates2(aPoint, bPoint, cPoint, nwanted, length, angle);
             }
-            else if (nwithCoords == 3)
+            else if(nwithCoords == 3)
             {
                 Vector3 bPoint = withCoords.Atoms[0].Point3D.Value;
                 Vector3 cPoint = withCoords.Atoms[1].Point3D.Value;
@@ -350,25 +350,25 @@ namespace NCDK.Modelings.Builder3D
         public virtual Vector3[] Calculate3DCoordinates0(Vector3 aPoint, int nwanted, double length)
         {
             Vector3[] points = Array.Empty<Vector3>();
-            if (nwanted == 1)
+            if(nwanted == 1)
             {
                 points = new Vector3[1];
                 points[0] = aPoint + new Vector3(length, 0.0, 0.0);
             }
-            else if (nwanted == 2)
+            else if(nwanted == 2)
             {
                 points = new Vector3[2];
                 points[0] = aPoint + new Vector3(length, 0.0, 0.0);
                 points[1] = aPoint + new Vector3(-length, 0.0, 0.0);
             }
-            else if (nwanted == 3)
+            else if(nwanted == 3)
             {
                 points = new Vector3[3];
                 points[0] = aPoint + new Vector3(length, 0.0, 0.0);
                 points[1] = aPoint + new Vector3(-length * 0.5, -length * 0.5 * Math.Sqrt(3.0), 0.0f);
                 points[2] = aPoint + new Vector3(-length * 0.5, length * 0.5 * Math.Sqrt(3.0), 0.0f);
             }
-            else if (nwanted == 4)
+            else if(nwanted == 4)
             {
                 points = new Vector3[4];
                 double dx = length / Math.Sqrt(3.0);
@@ -402,7 +402,7 @@ namespace NCDK.Modelings.Builder3D
             Vector3 ba = aPoint - bPoint;
             ba = Vector3.Normalize(ba);
             // if no cPoint, generate a random reference
-            if (cPoint == null)
+            if(cPoint == null)
             {
                 Vector3 cVector = GetNonColinearVector(ba);
                 cPoint = cVector;
@@ -412,7 +412,7 @@ namespace NCDK.Modelings.Builder3D
             cb = Vector3.Normalize(cb);
             // if A, B, C colinear, replace C by random point
             var cbdotba = Vector3.Dot(cb, ba);
-            if (cbdotba > 0.999999)
+            if(cbdotba > 0.999999)
             {
                 Vector3 cVector = GetNonColinearVector(ba);
                 cPoint = cVector;
@@ -425,7 +425,7 @@ namespace NCDK.Modelings.Builder3D
             Vector3 ax = Vector3.Cross(cbxba, ba);
             ax = Vector3.Normalize(ax);
             double drot = Math.PI * 2.0 / (double)nwanted;
-            for (int i = 0; i < nwanted; i++)
+            for(int i = 0; i < nwanted; i++)
             {
                 double rot = (double)i * drot;
                 points[i] = aPoint;
@@ -439,7 +439,7 @@ namespace NCDK.Modelings.Builder3D
                 points[i] += vy;
                 points[i] += vz;
             }
-            
+
             // ax = null; cbxba = null; ba = null; cb = null;
             return points;
         }
@@ -466,12 +466,12 @@ namespace NCDK.Modelings.Builder3D
             Vector3 ba = aPoint - bPoint;
             Vector3 ca = aPoint - cPoint;
             Vector3 baxca = Vector3.Cross(ba, ca);
-            if (baxca.Length() < 0.00000001)
+            if(baxca.Length() < 0.00000001)
             {
                 ;
                 // linear
             }
-            else if (nwanted == 1)
+            else if(nwanted == 1)
             {
                 newPoints = new Vector3[1];
                 Vector3 ax = ba + ca;
@@ -479,7 +479,7 @@ namespace NCDK.Modelings.Builder3D
                 ax *= length;
                 newPoints[0] = aPoint + ax;
             }
-            else if (nwanted >= 2)
+            else if(nwanted >= 2)
             {
                 newPoints = new Vector3[2];
                 Vector3 ax = ba + ca;
@@ -525,7 +525,7 @@ namespace NCDK.Modelings.Builder3D
             double dotProduct = Vector3.Dot(ca, ax);
             double angle = Math.Acos((dotProduct) / (ax.Length() * ca.Length()));
 
-            if (angle < 1.5)
+            if(angle < 1.5)
             {
                 n2 = Vector3.Cross(dc, bc);
                 n2 = Vector3.Normalize(n2);
@@ -582,7 +582,7 @@ namespace NCDK.Modelings.Builder3D
             Vector3[] newPoints = new Vector3[2];
             Vector3 ba = bPoint - aPoint;
 
-            if (cPoint != null)
+            if(cPoint != null)
             {
                 ca.X = cPoint.Value.X - aPoint.X;
                 ca.Y = cPoint.Value.Y - aPoint.Y;
@@ -596,6 +596,10 @@ namespace NCDK.Modelings.Builder3D
             }
 
             Vector3 crossProduct = Vector3.Cross(ba, ca);
+            if(crossProduct.Length() <= 0.00001)
+            {
+                crossProduct = GetNonColinearVector(ba);
+            }
 
             Vector3 n1 = Rotate(ba, crossProduct, 2 * angle);
             n1 = Vector3.Normalize(n1);
@@ -617,7 +621,7 @@ namespace NCDK.Modelings.Builder3D
         private static Vector3 GetNonColinearVector(Vector3 ab)
         {
             Vector3 cr = Vector3.Cross(ab, XV);
-            if (cr.Length() > 0.00001)
+            if(cr.Length() > 0.00001)
             {
                 return XV;
             }
@@ -652,11 +656,11 @@ namespace NCDK.Modelings.Builder3D
         private double GetDistanceValue(string id1, string id2)
         {
             string dkey = "";
-            if (pSet.ContainsKey(("bond" + id1 + ";" + id2)))
+            if(pSet.ContainsKey(("bond" + id1 + ";" + id2)))
             {
                 dkey = "bond" + id1 + ";" + id2;
             }
-            else if (pSet.ContainsKey(("bond" + id2 + ";" + id1)))
+            else if(pSet.ContainsKey(("bond" + id2 + ";" + id1)))
             {
                 dkey = "bond" + id2 + ";" + id1;
             }
@@ -678,27 +682,27 @@ namespace NCDK.Modelings.Builder3D
         public double GetAngleValue(string id1, string id2, string id3)
         {
             string akey = "";
-            if (pSet.ContainsKey(("angle" + id1 + ";" + id2 + ";" + id3)))
+            if(pSet.ContainsKey(("angle" + id1 + ";" + id2 + ";" + id3)))
             {
                 akey = "angle" + id1 + ";" + id2 + ";" + id3;
             }
-            else if (pSet.ContainsKey(("angle" + id3 + ";" + id2 + ";" + id1)))
+            else if(pSet.ContainsKey(("angle" + id3 + ";" + id2 + ";" + id1)))
             {
                 akey = "angle" + id3 + ";" + id2 + ";" + id1;
             }
-            else if (pSet.ContainsKey(("angle" + id2 + ";" + id1 + ";" + id3)))
+            else if(pSet.ContainsKey(("angle" + id2 + ";" + id1 + ";" + id3)))
             {
                 akey = "angle" + id2 + ";" + id1 + ";" + id3;
             }
-            else if (pSet.ContainsKey(("angle" + id1 + ";" + id3 + ";" + id2)))
+            else if(pSet.ContainsKey(("angle" + id1 + ";" + id3 + ";" + id2)))
             {
                 akey = "angle" + id1 + ";" + id3 + ";" + id2;
             }
-            else if (pSet.ContainsKey(("angle" + id3 + ";" + id1 + ";" + id2)))
+            else if(pSet.ContainsKey(("angle" + id3 + ";" + id1 + ";" + id2)))
             {
                 akey = "angle" + id3 + ";" + id1 + ";" + id2;
             }
-            else if (pSet.ContainsKey(("angle" + id2 + ";" + id3 + ";" + id1)))
+            else if(pSet.ContainsKey(("angle" + id2 + ";" + id3 + ";" + id1)))
             {
                 akey = "angle" + id2 + ";" + id3 + ";" + id1;
             }
@@ -733,20 +737,20 @@ namespace NCDK.Modelings.Builder3D
             Vector3 n1 = Vector3.Cross(b, c);
             n1 = Vector3.Normalize(n1);
 
-            if (GetSpatproduct(b, c, n1) >= 0)
+            if(GetSpatproduct(b, c, n1) >= 0)
             {
-                if (ax.Stereo != BondStereo.UpInverted)
+                if(ax.Stereo != BondStereo.UpInverted)
                 {
                     n1 = Vector3.Cross(c, b);
                     n1 = Vector3.Normalize(n1);
                 }
             }
             double dotProduct = 0;
-            for (int i = 0; i < branchPoints.Length; i++)
+            for(int i = 0; i < branchPoints.Length; i++)
             {
                 Vector3 n2 = new Vector3(branchPoints[0].X, branchPoints[0].Y, branchPoints[0].Z);
                 dotProduct = Vector3.Dot(n1, n2);
-                if (Math.Acos(dotProduct / (n1.Length() * n2.Length())) < 1.6)
+                if(Math.Acos(dotProduct / (n1.Length() * n2.Length())) < 1.6)
                 {
                     return i;
                 }
@@ -782,13 +786,13 @@ namespace NCDK.Modelings.Builder3D
             Vector3 bc = new Vector3(b.X - c.X, b.Y - c.Y, b.Z - c.Z);
             Vector3 n1 = Vector3.Cross(ab, cb);
 
-            if (GetSpatproduct(ab, cb, n1) > 0)
+            if(GetSpatproduct(ab, cb, n1) > 0)
             {
                 n1 = Vector3.Cross(cb, ab);
             }
             n1 = Vector3.Normalize(n1);
             Vector3 n2 = Vector3.Cross(dc, bc);
-            if (GetSpatproduct(dc, bc, n2) < 0)
+            if(GetSpatproduct(dc, bc, n2) < 0)
             {
                 n2 = Vector3.Cross(bc, dc);
             }
@@ -807,10 +811,10 @@ namespace NCDK.Modelings.Builder3D
             var bonds = ac.GetConnectedBonds(atom);
             IAtomContainer connectedAtoms = atom.Builder.NewAtomContainer();
             IAtom connectedAtom = null;
-            foreach (var bond in bonds)
+            foreach(var bond in bonds)
             {
                 connectedAtom = bond.GetOther(atom);
-                if (connectedAtom.IsPlaced)
+                if(connectedAtom.IsPlaced)
                 {
                     connectedAtoms.Atoms.Add(connectedAtom);
                 }
@@ -822,9 +826,9 @@ namespace NCDK.Modelings.Builder3D
         {
             var atoms = ac.GetConnectedAtoms(atom);
             IAtomContainer connectedAtoms = atom.Builder.NewAtomContainer();
-            foreach (var curAtom in atoms)
+            foreach(var curAtom in atoms)
             {
-                if (!curAtom.IsPlaced)
+                if(!curAtom.IsPlaced)
                 {//&& atoms[i].Point3D == null) {
                     connectedAtoms.Atoms.Add(curAtom);
                 }
@@ -835,9 +839,9 @@ namespace NCDK.Modelings.Builder3D
         private static bool HasUnsetNeighbour(IAtom atom, IAtomContainer ac)
         {
             var atoms = ac.GetConnectedAtoms(atom);
-            foreach (var curAtom in atoms)
+            foreach(var curAtom in atoms)
             {
-                if (!curAtom.IsPlaced)
+                if(!curAtom.IsPlaced)
                 {//&& atoms[i].Point3D == null) {
                     return true;
                 }
@@ -856,9 +860,9 @@ namespace NCDK.Modelings.Builder3D
         {
             var atoms = ac.GetConnectedAtoms(atomA);
             IAtom atom = null;
-            foreach (var curAtom in atoms)
+            foreach(var curAtom in atoms)
             {
-                if (curAtom.IsPlaced && !curAtom.AtomicNumber.Equals(NaturalElements.H.AtomicNumber) && curAtom != atomB)
+                if(curAtom.IsPlaced && !curAtom.AtomicNumber.Equals(NaturalElements.H.AtomicNumber) && curAtom != atomB)
                 {
                     return curAtom;
                 }
