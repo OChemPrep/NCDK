@@ -118,24 +118,24 @@ namespace NCDK.Default
                  src.LonePairs.Count,
                  src.SingleElectrons.Count)
         {
-            foreach (var atom in src.Atoms)
+            foreach(var atom in src.Atoms)
                 Atoms.Add(atom);
-            foreach (var bond in src.Bonds)
+            foreach(var bond in src.Bonds)
                 Bonds.Add(bond);
-            foreach (var se in src.SingleElectrons)
+            foreach(var se in src.SingleElectrons)
                 SingleElectrons.Add(se);
-            foreach (var lp in src.LonePairs)
+            foreach(var lp in src.LonePairs)
                 LonePairs.Add(lp);
-            foreach (var se in src.StereoElements)
+            foreach(var se in src.StereoElements)
                 StereoElements.Add(se);
         }
 
         public AtomContainer2(IEnumerable<IAtom> atoms, IEnumerable<IBond> bonds)
               : this()
         {
-            foreach (var atom in atoms)
+            foreach(var atom in atoms)
                 Atoms.Add(atom);
-            foreach (var bond in bonds)
+            foreach(var bond in bonds)
                 Bonds.Add(bond);
         }
 
@@ -181,9 +181,9 @@ namespace NCDK.Default
 
             public override IBond GetBond(IAtom atom)
             {
-                foreach (IBond bond in bonds)
+                foreach(IBond bond in bonds)
                 {
-                    if (bond.GetOther(this).Equals(atom))
+                    if(bond.GetOther(this).Equals(atom))
                         return bond;
                 }
                 return null;
@@ -196,7 +196,7 @@ namespace NCDK.Default
 
             public override bool Equals(object obj)
             {
-                if (obj is AtomRef)
+                if(obj is AtomRef)
                     return Deref().Equals(((AtomRef)obj).Deref());
                 return Deref().Equals(obj);
             }
@@ -243,7 +243,7 @@ namespace NCDK.Default
             {
                 get
                 {
-                    if (internalAtoms == null)
+                    if(internalAtoms == null)
                         internalAtoms = new InternalAtoms(this, base.Atoms);
                     return internalAtoms;
                 }
@@ -264,30 +264,30 @@ namespace NCDK.Default
                 {
                     get
                     {
-                        switch (index)
+                        switch(index)
                         {
-                            case 0:
-                                return parent.Begin;
-                            case 1:
-                                return parent.End;
-                            default:
-                                return parent.mol.GetAtomRef(baseList[index]);
+                        case 0:
+                            return parent.Begin;
+                        case 1:
+                            return parent.End;
+                        default:
+                            return parent.mol.GetAtomRef(baseList[index]);
                         }
                     }
 
                     set
                     {
                         baseList[index] = value;
-                        if (index == 0)
+                        if(index == 0)
                         {
-                            if (parent.beg != null)
+                            if(parent.beg != null)
                                 parent.beg.bonds.Remove(parent);
                             parent.beg = parent.mol.GetAtomRef(value);
                             parent.beg.bonds.Add(parent);
                         }
-                        else if (index == 1)
+                        else if(index == 1)
                         {
-                            if (parent.end != null)
+                            if(parent.end != null)
                                 parent.end.bonds.Remove(parent);
                             parent.end = parent.mol.GetAtomRef(value);
                             parent.end.bonds.Add(parent);
@@ -311,14 +311,14 @@ namespace NCDK.Default
 
             public AtomRef GetOtherRef(IAtom atom)
             {
-                if (atom == beg)
+                if(atom == beg)
                     return end;
-                else if (atom == end)
+                else if(atom == end)
                     return beg;
                 atom = AtomContainer2.Unbox(atom);
-                if (atom == beg.Deref())
+                if(atom == beg.Deref())
                     return end;
-                else if (atom == end.Deref())
+                else if(atom == end.Deref())
                     return beg;
                 return null;
             }
@@ -331,16 +331,16 @@ namespace NCDK.Default
                 Trace.Assert(atoms.Length == 2);
                 base.SetAtoms(atoms);
                 // check for swap: intended ref check
-                if (object.Equals(atoms[0], end) && object.Equals(atoms[1], beg))
+                if(object.Equals(atoms[0], end) && object.Equals(atoms[1], beg))
                 {
                     BaseAtomRef tmp = beg;
                     beg = end;
                     end = tmp;
                     return;
                 }
-                if (beg != null)
+                if(beg != null)
                     beg.bonds.Remove(this);
-                if (end != null)
+                if(end != null)
                     end.bonds.Remove(this);
                 beg = mol.GetAtomRef(atoms[0]);
                 end = mol.GetAtomRef(atoms[1]);
@@ -355,7 +355,7 @@ namespace NCDK.Default
 
             public override bool Equals(object obj)
             {
-                if (obj is BondRef)
+                if(obj is BondRef)
                     return Deref().Equals(((BondRef)obj).Deref());
                 return Deref().Equals(obj);
             }
@@ -390,7 +390,7 @@ namespace NCDK.Default
 
             public override bool Equals(object obj)
             {
-                if (obj is BondRef)
+                if(obj is BondRef)
                     return Deref().Equals(((BondRef)obj).Deref());
                 return Deref().Equals(obj);
             }
@@ -467,12 +467,12 @@ namespace NCDK.Default
             public bool IsReadOnly => false;
             public abstract void Add(TInterface item);
             public abstract void Clear();
-            public bool Contains(TInterface item) => list.Contains((TRef)item);
+            public virtual bool Contains(TInterface item) => list.Contains((TRef)item);
             public void CopyTo(TInterface[] array, int arrayIndex)
             {
-                for (int i = 0; i < list.Count; i++)
+                for(int i = 0; i < list.Count; i++)
                     array[arrayIndex + i] = list[i];
-            }            
+            }
             public IEnumerator<TInterface> GetEnumerator() => list.Cast<TInterface>().GetEnumerator();
             public abstract int IndexOf(TInterface atom);
             public void Insert(int index, TInterface item)
@@ -499,7 +499,7 @@ namespace NCDK.Default
             {
                 get
                 {
-                    if (index >= this.parent.atoms.Count)
+                    if(index >= this.parent.atoms.Count)
                         throw new ArgumentOutOfRangeException(nameof(index), $"No atom at index: {index}");
                     return parent.atoms[index];
                 }
@@ -507,41 +507,41 @@ namespace NCDK.Default
                 set
                 {
                     var atom = value;
-                    if (atom == null)
+                    if(atom == null)
                         throw new NullReferenceException("Null atom provided");
-                    if (parent.atoms.Contains(atom))
+                    if(parent.atoms.Contains(atom))
                         throw new InvalidOperationException($"Atom already in container at index: {this.IndexOf(atom)}");
-                    if (index < 0 || index >= parent.atoms.Count)
+                    if(index < 0 || index >= parent.atoms.Count)
                         throw new ArgumentOutOfRangeException(nameof(index), $"No current atom at index: {index}");
                     var rep = parent.NewAtomRef(atom);
                     var org = parent.atoms[index];
                     parent.atoms[index] = rep;
                     parent.atoms[index].SetIndex(index);
-                    foreach (var bond in org.Bonds.ToArray())
+                    foreach(var bond in org.Bonds.ToArray())
                     {
-                        if (bond.Begin.Equals(org))
+                        if(bond.Begin.Equals(org))
                             bond.Atoms[0] = rep;
-                        else if (bond.End.Equals(org))
+                        else if(bond.End.Equals(org))
                             bond.Atoms[1] = rep;
                     }
 
                     // update single electrons and lone pairs
-                    foreach (var ec in parent.electrons)
+                    foreach(var ec in parent.electrons)
                     {
-                        if (org.Equals(ec.Atom))
+                        if(org.Equals(ec.Atom))
                             ec.Atom = rep;
                     }
-                    foreach (var lp in parent.lonepairs)
+                    foreach(var lp in parent.lonepairs)
                     {
-                        if (org.Equals(lp.Atom))
+                        if(org.Equals(lp.Atom))
                             lp.Atom = rep;
                     }
 
                     // update stereo
-                    for (int i = 0; i < parent.stereo.Count; i++)
+                    for(int i = 0; i < parent.stereo.Count; i++)
                     {
                         var se = parent.stereo[i];
-                        if (se.Contains(org))
+                        if(se.Contains(org))
                         {
                             var map = new CDKObjectMap();
                             map.Add(org, rep);
@@ -560,9 +560,14 @@ namespace NCDK.Default
                 return aref == null ? -1 : aref.Index;
             }
 
+            public override bool Contains(IAtom item)
+            {
+                return parent.Contains(item);
+            }
+
             public override void Add(IAtom atom)
             {
-                if (parent.Contains(atom))
+                if(parent.Contains(atom))
                     return;
                 var aref = parent.NewAtomRef(atom);
                 aref.SetIndex(parent.atoms.Count);
@@ -575,7 +580,7 @@ namespace NCDK.Default
             {
                 parent.atoms[index].Listeners.Remove(parent);
                 parent.atoms[index].SetIndex(-1);
-                for (int i = index; i < parent.atoms.Count - 1; i++)
+                for(int i = index; i < parent.atoms.Count - 1; i++)
                 {
                     parent.atoms[i] = parent.atoms[i + 1];
                     parent.atoms[i].SetIndex(i);
@@ -587,7 +592,7 @@ namespace NCDK.Default
             public override bool Remove(IAtom item)
             {
                 var index = parent.Atoms.IndexOf(item);
-                if (index != -1)
+                if(index != -1)
                 {
                     RemoveAt(index);
                     return true;
@@ -597,7 +602,7 @@ namespace NCDK.Default
 
             public override void Clear()
             {
-                foreach (var item in parent.atoms)
+                foreach(var item in parent.atoms)
                     item.Listeners.Remove(parent);
                 parent.atoms.Clear();
                 parent.OnStateChanged(new ChemObjectChangeEventArgs(this));
@@ -618,7 +623,7 @@ namespace NCDK.Default
             {
                 get
                 {
-                    if (index >= parent.bonds.Count)
+                    if(index >= parent.bonds.Count)
                         throw new ArgumentOutOfRangeException(nameof(index), "No bond at index: " + index);
                     return parent.bonds[index];
                 }
@@ -650,7 +655,7 @@ namespace NCDK.Default
                 BondRef bond = null;
                 bond = parent.bonds[index];
                 parent.bonds[index].SetIndex(-1);
-                for (int i = index; i < parent.bonds.Count - 1; i++)
+                for(int i = index; i < parent.bonds.Count - 1; i++)
                 {
                     parent.bonds[i] = parent.bonds[i + 1];
                     parent.bonds[i].SetIndex(i);
@@ -664,7 +669,7 @@ namespace NCDK.Default
             public override bool Remove(IBond item)
             {
                 var index = parent.Bonds.IndexOf(item);
-                if (index != -1)
+                if(index != -1)
                 {
                     RemoveAt(index);
                     return true;
@@ -674,7 +679,7 @@ namespace NCDK.Default
 
             public override void Clear()
             {
-                foreach (var item in parent.bonds)
+                foreach(var item in parent.bonds)
                     item.Listeners.Remove(parent);
                 parent.bonds.Clear();
                 parent.ClearAdjacency();
@@ -684,27 +689,27 @@ namespace NCDK.Default
 
         internal static IAtom Unbox(IAtom atom)
         {
-            while (atom is AtomRef)
+            while(atom is AtomRef)
                 atom = ((AtomRef)atom).Deref();
             return atom;
         }
 
         internal static IBond Unbox(IBond bond)
         {
-            while (bond is BondRef)
+            while(bond is BondRef)
                 bond = ((BondRef)bond).Deref();
             return bond;
         }
 
         internal BaseAtomRef GetAtomRefUnsafe(IAtom atom)
         {
-            if (atom.Container == this &&
+            if(atom.Container == this &&
                 atom.Index != -1 &&
                 atoms[atom.Index] == atom)
                 return (BaseAtomRef)atom;
             atom = Unbox(atom);
-            for (int i = 0; i < atoms.Count; i++)
-                if (object.Equals(atoms[i], atom))
+            for(int i = 0; i < atoms.Count; i++)
+                if(object.Equals(atoms[i], atom))
                     return atoms[i];
             return null;
         }
@@ -712,7 +717,7 @@ namespace NCDK.Default
         internal BaseAtomRef GetAtomRef(IAtom atom)
         {
             var atomref = GetAtomRefUnsafe(atom);
-            if (atomref == null)
+            if(atomref == null)
                 throw new NoSuchAtomException("Atom is not a member of this AtomContainer");
             return atomref;
         }
@@ -720,23 +725,23 @@ namespace NCDK.Default
         internal BaseAtomRef NewAtomRef(IAtom atom)
         {
             // most common implementation we'll encounter..
-            if (atom.GetType() == typeof(Atom))
+            if(atom.GetType() == typeof(Atom))
                 return new BaseAtomRef(this, atom);
             atom = Unbox(atom);
             // re-check the common case now we've un-boxed
-            if (atom.GetType() == typeof(Atom))
+            if(atom.GetType() == typeof(Atom))
             {
                 return new BaseAtomRef(this, atom);
             }
-            else if (atom is IPseudoAtom)
+            else if(atom is IPseudoAtom)
             {
                 return new PsuedoAtomRef(this, (IPseudoAtom)atom);
             }
-            else if (atom is IQueryAtom)
+            else if(atom is IQueryAtom)
             {
                 return new QueryAtomRef(this, (IQueryAtom)atom);
             }
-            else if (atom is IPDBAtom)
+            else if(atom is IPDBAtom)
             {
                 return new PdbAtomRef(this, (IPDBAtom)atom);
             }
@@ -748,13 +753,13 @@ namespace NCDK.Default
 
         private BondRef GetBondRefUnsafe(IBond bond)
         {
-            if (bond.Container == this &&
+            if(bond.Container == this &&
                 bond.Index != -1 &&
                 bonds[bond.Index] == bond)
                 return (BondRef)bond;
             bond = Unbox(bond);
-            for (int i = 0; i < bonds.Count; i++)
-                if (bonds[i].Deref() == bond)
+            for(int i = 0; i < bonds.Count; i++)
+                if(bonds[i].Deref() == bond)
                     return bonds[i];
             return null;
         }
@@ -763,17 +768,17 @@ namespace NCDK.Default
         {
             var beg = bond.Begin == null ? null : GetAtomRef(bond.Begin);
             var end = bond.End == null ? null : GetAtomRef(bond.End);
-            if (bond.GetType() == typeof(Bond))
+            if(bond.GetType() == typeof(Bond))
                 return new BaseBondRef(this, bond, beg, end);
             bond = Unbox(bond);
-            if (bond is IQueryBond)
+            if(bond is IQueryBond)
                 return new QueryBondRef(this, (IQueryBond)bond, beg, end);
             return new BaseBondRef(this, bond, beg, end);
         }
 
         private void AddToEndpoints(BaseBondRef bondref)
         {
-            if (bondref.Atoms.Count == 2)
+            if(bondref.Atoms.Count == 2)
             {
                 var beg = GetAtomRef(bondref.Begin);
                 var end = GetAtomRef(bondref.End);
@@ -782,7 +787,7 @@ namespace NCDK.Default
             }
             else
             {
-                for (int i = 0; i < bondref.Atoms.Count; i++)
+                for(int i = 0; i < bondref.Atoms.Count; i++)
                 {
                     GetAtomRef(bondref.Atoms[i]).bonds.Add(bondref);
                 }
@@ -791,18 +796,18 @@ namespace NCDK.Default
 
         private void DelFromEndpoints(BondRef bondref)
         {
-            for (int i = 0; i < bondref.Atoms.Count; i++)
+            for(int i = 0; i < bondref.Atoms.Count; i++)
             {
                 var aref = GetAtomRefUnsafe(bondref.Atoms[i]);
                 // atom may have already been deleted, naughty!
-                if (aref != null)
+                if(aref != null)
                     aref.bonds.Remove(bondref);
             }
         }
 
         private void ClearAdjacency()
         {
-            for (int i = 0; i < atoms.Count; i++)
+            for(int i = 0; i < atoms.Count; i++)
             {
                 atoms[i].bonds.Clear();
             }
@@ -813,19 +818,19 @@ namespace NCDK.Default
             var newatoms = newatoms_.ToList();
             bool reindexBonds = false;
 
-            for (int i = 0; i < newatoms.Count; i++)
+            for(int i = 0; i < newatoms.Count; i++)
             {
-                if (i >= atoms.Count)
+                if(i >= atoms.Count)
                     atoms.Add(null);
 
-                if (newatoms[i].Container == this)
+                if(newatoms[i].Container == this)
                 {
                     atoms[i] = (BaseAtomRef)newatoms[i];
                     atoms[i].SetIndex(i);
                 }
                 else
                 {
-                    if (atoms[i] != null)
+                    if(atoms[i] != null)
                         atoms[i].Listeners.Remove(this);
                     atoms[i] = NewAtomRef(newatoms[i]);
                     atoms[i].SetIndex(i);
@@ -836,7 +841,7 @@ namespace NCDK.Default
 
             // delete rest of the array
             {
-                for (int i = atoms.Count - 1; i >= newatoms.Count; i--)
+                for(int i = atoms.Count - 1; i >= newatoms.Count; i--)
                 {
                     atoms[i].Listeners.Remove(this);
                     atoms.RemoveAt(i);
@@ -846,10 +851,10 @@ namespace NCDK.Default
             // ensure adjacency information is in sync, this code is only
             // called if the bonds are non-empty and 'external' atoms have been
             // added
-            if (bonds.Count > 0 && reindexBonds)
+            if(bonds.Count > 0 && reindexBonds)
             {
                 ClearAdjacency();
-                for (int i = 0; i < bonds.Count; i++)
+                for(int i = 0; i < bonds.Count; i++)
                     AddToEndpoints(bonds[i]);
             }
 
@@ -861,25 +866,25 @@ namespace NCDK.Default
             var newbonds = newbonds_.ToList();
 
             // replace existing bonds to clear their adjacency
-            if (bonds.Count > 0) 
+            if(bonds.Count > 0)
             {
                 ClearAdjacency();
             }
 
-            for (int i = 0; i < newbonds.Count; i++) 
+            for(int i = 0; i < newbonds.Count; i++)
             {
-                if (i >= bonds.Count)
+                if(i >= bonds.Count)
                     bonds.Add(null);
 
                 BaseBondRef bondRef = NewBondRef(newbonds[i]);
                 bondRef.SetIndex(i);
                 AddToEndpoints(bondRef);
-                if (bonds[i] != null)
+                if(bonds[i] != null)
                     bonds[i].Listeners.Remove(this);
                 bonds[i] = bondRef;
                 bondRef.Listeners.Add(this);
             }
-            for (int i = bonds.Count - 1; i >= newbonds.Count; i--)
+            for(int i = bonds.Count - 1; i >= newbonds.Count; i--)
                 bonds.RemoveAt(i);
 
             NotifyChanged();
@@ -887,9 +892,9 @@ namespace NCDK.Default
 
         public int IndexOf(ISingleElectron electron)
         {
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
-                if (electrons[i] == electron)
+                if(electrons[i] == electron)
                     return i;
             }
             return -1;
@@ -897,9 +902,9 @@ namespace NCDK.Default
 
         public int IndexOf(ILonePair pair)
         {
-            for (int i = 0; i < lonepairs.Count; i++)
+            for(int i = 0; i < lonepairs.Count; i++)
             {
-                if (lonepairs[i] == pair) 
+                if(lonepairs[i] == pair)
                     return i;
             }
             return -1;
@@ -907,13 +912,13 @@ namespace NCDK.Default
 
         public IElectronContainer GetElectronContainer(int number)
         {
-            if (number < bonds.Count) 
+            if(number < bonds.Count)
                 return bonds[number];
             number -= bonds.Count;
-            if (number < lonepairs.Count) 
+            if(number < lonepairs.Count)
                 return lonepairs[number];
             number -= lonepairs.Count;
-            if (number < electrons.Count) 
+            if(number < electrons.Count)
                 return electrons[number];
             return null;
         }
@@ -939,7 +944,7 @@ namespace NCDK.Default
         {
             var aref = GetAtomRef(atom);
             var nbrs = new List<IAtom>(aref.Bonds.Count);
-            foreach (var bond in aref.Bonds)
+            foreach(var bond in aref.Bonds)
             {
                 nbrs.Add(bond.GetOther(atom));
             }
@@ -956,10 +961,10 @@ namespace NCDK.Default
         {
             GetAtomRef(atom);
             var lps = new List<ILonePair>();
-            for (int i = 0; i < lonepairs.Count; i++)
+            for(int i = 0; i < lonepairs.Count; i++)
             {
-                if (lonepairs[i].Contains(atom)) 
-                lps.Add(lonepairs[i]);
+                if(lonepairs[i].Contains(atom))
+                    lps.Add(lonepairs[i]);
             }
             return lps;
         }
@@ -968,9 +973,9 @@ namespace NCDK.Default
         {
             GetAtomRef(atom);
             var ses = new List<ISingleElectron>();
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
-                if (electrons[i].Contains(atom))
+                if(electrons[i].Contains(atom))
                     ses.Add(electrons[i]);
             }
             return ses;
@@ -980,19 +985,19 @@ namespace NCDK.Default
         {
             var aref = GetAtomRef(atom);
             var ecs = new List<IElectronContainer>();
-            
-            foreach (var bond in aref.Bonds)
+
+            foreach(var bond in aref.Bonds)
             {
                 ecs.Add(bond);
             }
-            for (int i = 0; i < lonepairs.Count; i++)
+            for(int i = 0; i < lonepairs.Count; i++)
             {
-                if (lonepairs[i].Contains(atom))
+                if(lonepairs[i].Contains(atom))
                     ecs.Add(lonepairs[i]);
             }
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
-                if (electrons[i].Contains(atom))
+                if(electrons[i].Contains(atom))
                     ecs.Add(electrons[i]);
             }
             return ecs;
@@ -1001,10 +1006,10 @@ namespace NCDK.Default
         public double GetBondOrderSum(IAtom atom)
         {
             double count = 0;
-            foreach (var bond in GetAtomRef(atom).Bonds)
+            foreach(var bond in GetAtomRef(atom).Bonds)
             {
                 BondOrder order = bond.Order;
-                if (!order.IsUnset())
+                if(!order.IsUnset())
                 {
                     count += order.Numeric();
                 }
@@ -1015,11 +1020,11 @@ namespace NCDK.Default
         public BondOrder GetMaximumBondOrder(IAtom atom)
         {
             var max = BondOrder.Unset;
-            foreach (var bond in GetAtomRef(atom).Bonds)
-                if (max == BondOrder.Unset || bond.Order.Numeric() > max.Numeric())
+            foreach(var bond in GetAtomRef(atom).Bonds)
+                if(max == BondOrder.Unset || bond.Order.Numeric() > max.Numeric())
                     max = bond.Order;
-            if (max == BondOrder.Unset)
-                if (atom.ImplicitHydrogenCount != null 
+            if(max == BondOrder.Unset)
+                if(atom.ImplicitHydrogenCount != null
                  && atom.ImplicitHydrogenCount > 0)
                     max = BondOrder.Single;
                 else
@@ -1030,11 +1035,11 @@ namespace NCDK.Default
         public BondOrder GetMinimumBondOrder(IAtom atom)
         {
             var min = BondOrder.Unset;
-            foreach (var bond in GetAtomRef(atom).Bonds)
-                if (min == BondOrder.Unset || bond.Order.Numeric() < min.Numeric())
+            foreach(var bond in GetAtomRef(atom).Bonds)
+                if(min == BondOrder.Unset || bond.Order.Numeric() < min.Numeric())
                     min = bond.Order;
-            if (min == BondOrder.Unset)
-                if (atom.ImplicitHydrogenCount != null 
+            if(min == BondOrder.Unset)
+                if(atom.ImplicitHydrogenCount != null
                  && atom.ImplicitHydrogenCount > 0)
                     min = BondOrder.Single;
                 else
@@ -1045,36 +1050,36 @@ namespace NCDK.Default
         public void Add(IAtomContainer that)
         {
             // mark visited
-            foreach (IAtom atom in that.Atoms)
+            foreach(IAtom atom in that.Atoms)
                 atom.IsVisited = false;
-            foreach (IBond bond in that.Bonds)
+            foreach(IBond bond in that.Bonds)
                 bond.IsVisited = false;
-            foreach (IAtom atom in this.Atoms)
+            foreach(IAtom atom in this.Atoms)
                 atom.IsVisited = true;
-            foreach (IBond bond in this.Bonds)
+            foreach(IBond bond in this.Bonds)
                 bond.IsVisited = true;
 
             // do stereo elements first
-            foreach (var se in that.StereoElements)
+            foreach(var se in that.StereoElements)
             {
-                if (se is ITetrahedralChirality 
+                if(se is ITetrahedralChirality
                  && !((ITetrahedralChirality)se).ChiralAtom.IsVisited)
                     this.StereoElements.Add(se);
-                else if (se is IDoubleBondStereochemistry 
+                else if(se is IDoubleBondStereochemistry
                       && !((IDoubleBondStereochemistry)se).StereoBond.IsVisited)
                     this.StereoElements.Add(se);
-                else if (se is ExtendedTetrahedral 
+                else if(se is ExtendedTetrahedral
                       && !((ExtendedTetrahedral)se).Focus.IsVisited)
                     this.StereoElements.Add(se);
             }
 
-            foreach (var atom in that.Atoms.Where(atom => !atom.IsVisited))
+            foreach(var atom in that.Atoms.Where(atom => !atom.IsVisited))
                 Atoms.Add(atom);
-            foreach (var bond in that.Bonds.Where(bond => !bond.IsVisited))
+            foreach(var bond in that.Bonds.Where(bond => !bond.IsVisited))
                 Bonds.Add(bond);
-            foreach (var lonePair in that.LonePairs.Where(lonePair => !lonePair.IsVisited))
+            foreach(var lonePair in that.LonePairs.Where(lonePair => !lonePair.IsVisited))
                 LonePairs.Add(lonePair);
-            foreach (var singleElectron in that.SingleElectrons.Where(singleElectron => !Contains(singleElectron)))
+            foreach(var singleElectron in that.SingleElectrons.Where(singleElectron => !Contains(singleElectron)))
                 SingleElectrons.Add(singleElectron);
 
             NotifyChanged();
@@ -1083,17 +1088,17 @@ namespace NCDK.Default
         /// <inheritdoc/>
         public void AddElectronContainer(IElectronContainer electronContainer)
         {
-            switch (electronContainer)
+            switch(electronContainer)
             {
-                case IBond bond:
-                    Bonds.Add(bond);
-                    return;
-                case ILonePair lonePair:
-                    LonePairs.Add(lonePair);
-                    return;
-                case ISingleElectron singleElectron:
-                    SingleElectrons.Add(singleElectron);
-                    return;
+            case IBond bond:
+                Bonds.Add(bond);
+                return;
+            case ILonePair lonePair:
+                LonePairs.Add(lonePair);
+                return;
+            case ISingleElectron singleElectron:
+                SingleElectrons.Add(singleElectron);
+                return;
             }
             NotifyChanged();
         }
@@ -1101,13 +1106,13 @@ namespace NCDK.Default
         /// <inheritdoc/>
         public void Remove(IAtomContainer atomContainer)
         {
-            foreach (var bond in atomContainer.Bonds)
+            foreach(var bond in atomContainer.Bonds)
                 Bonds.Remove(bond);
-            foreach (var lonePair in atomContainer.LonePairs)
+            foreach(var lonePair in atomContainer.LonePairs)
                 LonePairs.Remove(lonePair);
-            foreach (var singleElectron in atomContainer.SingleElectrons)
+            foreach(var singleElectron in atomContainer.SingleElectrons)
                 SingleElectrons.Remove(singleElectron);
-            foreach (var atom in atomContainer.Atoms)
+            foreach(var atom in atomContainer.Atoms)
                 Atoms.Remove(atom);
 
             NotifyChanged();
@@ -1116,7 +1121,7 @@ namespace NCDK.Default
         public IBond RemoveBond(IAtom beg, IAtom end)
         {
             var bond = GetBond(beg, end);
-            if (bond != null)
+            if(bond != null)
                 Bonds.Remove(bond);
             return bond;
         }
@@ -1124,17 +1129,17 @@ namespace NCDK.Default
         /// <inheritdoc/>
         public void Remove(IElectronContainer electronContainer)
         {
-            switch (electronContainer)
+            switch(electronContainer)
             {
-                case IBond bond:
-                    Bonds.Remove(bond);
-                    return;
-                case ILonePair lonePair:
-                    LonePairs.Remove(lonePair);
-                    return;
-                case ISingleElectron singleElectron:
-                    SingleElectrons.Remove(singleElectron);
-                    return;
+            case IBond bond:
+                Bonds.Remove(bond);
+                return;
+            case ILonePair lonePair:
+                LonePairs.Remove(lonePair);
+                return;
+            case ISingleElectron singleElectron:
+                SingleElectrons.Remove(singleElectron);
+                return;
             }
         }
 
@@ -1149,15 +1154,15 @@ namespace NCDK.Default
         public void RemoveAtom(IAtom atom)
         {
             var atomref = GetAtomRefUnsafe(atom);
-            if (atomref != null)
+            if(atomref != null)
             {
-                if (atomref.Bonds.Count > 0)
+                if(atomref.Bonds.Count > 0)
                 {
                     // update bonds
                     int newNumBonds = 0;
-                    for (int i = 0; i < bonds.Count; i++)
+                    for(int i = 0; i < bonds.Count; i++)
                     {
-                        if (!bonds[i].Contains(atom))
+                        if(!bonds[i].Contains(atom))
                         {
                             bonds[newNumBonds] = bonds[i];
                             bonds[newNumBonds].SetIndex(newNumBonds);
@@ -1170,16 +1175,16 @@ namespace NCDK.Default
                         }
                     }
                     {
-                        for (int j = bonds.Count - 1; j >= newNumBonds; j--)
+                        for(int j = bonds.Count - 1; j >= newNumBonds; j--)
                             bonds.RemoveAt(j);
                     }
                 }
 
                 // update single electrons
                 int newNumSingleElectrons = 0;
-                for (int i = 0; i < electrons.Count; i++)
+                for(int i = 0; i < electrons.Count; i++)
                 {
-                    if (!electrons[i].Contains(atom))
+                    if(!electrons[i].Contains(atom))
                     {
                         electrons[newNumSingleElectrons] = electrons[i];
                         newNumSingleElectrons++;
@@ -1190,15 +1195,15 @@ namespace NCDK.Default
                     }
                 }
                 {
-                    for (int j = electrons.Count - 1; j >= newNumSingleElectrons; j--)
+                    for(int j = electrons.Count - 1; j >= newNumSingleElectrons; j--)
                         electrons.RemoveAt(j);
                 }
 
                 // update lone pairs
                 int newNumLonePairs = 0;
-                for (int i = 0; i < lonepairs.Count; i++)
+                for(int i = 0; i < lonepairs.Count; i++)
                 {
-                    if (!lonepairs[i].Contains(atom))
+                    if(!lonepairs[i].Contains(atom))
                     {
                         lonepairs[newNumLonePairs] = lonepairs[i];
                         newNumLonePairs++;
@@ -1209,16 +1214,16 @@ namespace NCDK.Default
                     }
                 }
                 {
-                    for (int j = lonepairs.Count - 1; j >= newNumLonePairs; j--)
+                    for(int j = lonepairs.Count - 1; j >= newNumLonePairs; j--)
                         lonepairs.RemoveAt(j);
                 }
 
                 var atomElements = new List<IStereoElement<IChemObject, IChemObject>>();
-                foreach (var element in stereo)
+                foreach(var element in stereo)
                 {
-                    if (element.Contains(atom)) atomElements.Add(element);
+                    if(element.Contains(atom)) atomElements.Add(element);
                 }
-                foreach (var ae in atomElements)
+                foreach(var ae in atomElements)
                     stereo.Remove(ae);
 
                 Atoms.RemoveAt(atomref.Index);
@@ -1235,7 +1240,7 @@ namespace NCDK.Default
         public void RemoveAllElements()
         {
             RemoveAllElectronContainers();
-            foreach (var atom in atoms)
+            foreach(var atom in atoms)
                 atom.Listeners?.Remove(this);
             atoms.Clear();
             stereo.Clear();
@@ -1245,9 +1250,9 @@ namespace NCDK.Default
         public void RemoveAllElectronContainers()
         {
             Bonds.Clear();
-            foreach (var e in lonepairs)
+            foreach(var e in lonepairs)
                 e.Listeners?.Remove(this);
-            foreach (var e in electrons)
+            foreach(var e in electrons)
                 e.Listeners?.Remove(this);
             lonepairs.Clear();
             electrons.Clear();
@@ -1277,11 +1282,11 @@ namespace NCDK.Default
         /// <inheritdoc/>
         public bool Contains(IElectronContainer electronContainer)
         {
-            if (electronContainer is IBond bond)
+            if(electronContainer is IBond bond)
                 return Contains(bond);
-            if (electronContainer is ILonePair lonePair)
+            if(electronContainer is ILonePair lonePair)
                 return Contains(lonePair);
-            if (electronContainer is ISingleElectron singleElectron)
+            if(electronContainer is ISingleElectron singleElectron)
                 return Contains(singleElectron);
             return false;
         }
@@ -1312,10 +1317,10 @@ namespace NCDK.Default
             Append(sb, bonds, "B");
             Append(sb, lonepairs, "LP");
             Append(sb, electrons, "SE");
-            if (stereo.Count > 0)
+            if(stereo.Count > 0)
             {
                 sb.Append(", ST:[#").Append(stereo.Count);
-                foreach (var elements in stereo)
+                foreach(var elements in stereo)
                     sb.Append(", ").Append(elements.ToString());
                 sb.Append(']');
             }
@@ -1324,10 +1329,10 @@ namespace NCDK.Default
 
         private static void Append<T>(StringBuilder sb, ICollection<T> os, string tag)
         {
-            if (os.Count > 0)
+            if(os.Count > 0)
             {
                 sb.Append(", #").Append(tag).Append(":").Append(os.Count);
-                foreach (var e in os)
+                foreach(var e in os)
                     sb.Append(", ").Append(e.ToString());
             }
         }
@@ -1358,23 +1363,23 @@ namespace NCDK.Default
 
             // clone atoms
             IAtom[] c_atoms = new IAtom[this.atoms.Count];
-            for (int i = 0; i < this.atoms.Count; i++)
+            for(int i = 0; i < this.atoms.Count; i++)
             {
                 c_atoms[i] = (IAtom)this.atoms[i].Deref().Clone(map);
             }
             clone.SetAtoms(c_atoms);
-            for (int i = 0; i < c_atoms.Length; i++)
+            for(int i = 0; i < c_atoms.Length; i++)
                 refmap.Set(this.atoms[i], clone.Atoms[i]);
 
             // clone bonds using a the mappings from the original to the clone
             IBond[] bonds = new IBond[this.bonds.Count];
-            for (int i = 0; i < this.bonds.Count; i++)
+            for(int i = 0; i < this.bonds.Count; i++)
             {
                 BondRef original = this.bonds[i];
                 IBond bond = (IBond)original.Deref().Clone(map);
                 int n = bond.Atoms.Count;
                 IAtom[] members = new IAtom[n];
-                for (int j = 0; j < n; j++)
+                for(int j = 0; j < n; j++)
                 {
                     members[j] = map.Get(original.Atoms[j]);
                 }
@@ -1383,42 +1388,42 @@ namespace NCDK.Default
                 bonds[i] = bond;
             }
             clone.SetBonds(bonds);
-            for (int i = 0; i < bonds.Length; i++)
+            for(int i = 0; i < bonds.Length; i++)
                 refmap.Set(this.bonds[i], clone.Bonds[i]);
 
             // clone lone pairs (we can't use an array to buffer as there is no setLonePairs())
-            for (int i = 0; i < this.lonepairs.Count; i++)
+            for(int i = 0; i < this.lonepairs.Count; i++)
             {
                 ILonePair original = this.lonepairs[i];
                 ILonePair pair = (ILonePair)original.Clone();
 
-                if (pair.Atom != null)
+                if(pair.Atom != null)
                     pair.Atom = refmap.Get(original.Atom);
 
                 clone.LonePairs.Add(pair);
             }
 
             // clone single electrons (we can't use an array to buffer as there is no setSingleElectrons())
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
                 ISingleElectron original = this.electrons[i];
                 ISingleElectron electron = (ISingleElectron)original.Clone();
 
-                if (electron.Atom != null)
+                if(electron.Atom != null)
                     electron.Atom = refmap.Get(original.Atom);
 
                 clone.SingleElectrons.Add(electron);
             }
 
             // map each stereo element to a new instance in the clone
-            foreach (var element in stereo)
+            foreach(var element in stereo)
             {
                 clone.StereoElements.Add((IStereoElement<IChemObject, IChemObject>)element.Clone(refmap));
             }
 
             // update sgroups
             var sgroups = this.GetCtabSgroups();
-            if (sgroups != null)
+            if(sgroups != null)
             {
                 clone.SetCtabSgroups(SgroupManipulator.Copy(sgroups, refmap));
             }
@@ -1513,24 +1518,24 @@ namespace NCDK.Silent
                  src.LonePairs.Count,
                  src.SingleElectrons.Count)
         {
-            foreach (var atom in src.Atoms)
+            foreach(var atom in src.Atoms)
                 Atoms.Add(atom);
-            foreach (var bond in src.Bonds)
+            foreach(var bond in src.Bonds)
                 Bonds.Add(bond);
-            foreach (var se in src.SingleElectrons)
+            foreach(var se in src.SingleElectrons)
                 SingleElectrons.Add(se);
-            foreach (var lp in src.LonePairs)
+            foreach(var lp in src.LonePairs)
                 LonePairs.Add(lp);
-            foreach (var se in src.StereoElements)
+            foreach(var se in src.StereoElements)
                 StereoElements.Add(se);
         }
 
         public AtomContainer2(IEnumerable<IAtom> atoms, IEnumerable<IBond> bonds)
               : this()
         {
-            foreach (var atom in atoms)
+            foreach(var atom in atoms)
                 Atoms.Add(atom);
-            foreach (var bond in bonds)
+            foreach(var bond in bonds)
                 Bonds.Add(bond);
         }
 
@@ -1574,9 +1579,9 @@ namespace NCDK.Silent
 
             public override IBond GetBond(IAtom atom)
             {
-                foreach (IBond bond in bonds)
+                foreach(IBond bond in bonds)
                 {
-                    if (bond.GetOther(this).Equals(atom))
+                    if(bond.GetOther(this).Equals(atom))
                         return bond;
                 }
                 return null;
@@ -1589,7 +1594,7 @@ namespace NCDK.Silent
 
             public override bool Equals(object obj)
             {
-                if (obj is AtomRef)
+                if(obj is AtomRef)
                     return Deref().Equals(((AtomRef)obj).Deref());
                 return Deref().Equals(obj);
             }
@@ -1636,7 +1641,7 @@ namespace NCDK.Silent
             {
                 get
                 {
-                    if (internalAtoms == null)
+                    if(internalAtoms == null)
                         internalAtoms = new InternalAtoms(this, base.Atoms);
                     return internalAtoms;
                 }
@@ -1657,30 +1662,30 @@ namespace NCDK.Silent
                 {
                     get
                     {
-                        switch (index)
+                        switch(index)
                         {
-                            case 0:
-                                return parent.Begin;
-                            case 1:
-                                return parent.End;
-                            default:
-                                return parent.mol.GetAtomRef(baseList[index]);
+                        case 0:
+                            return parent.Begin;
+                        case 1:
+                            return parent.End;
+                        default:
+                            return parent.mol.GetAtomRef(baseList[index]);
                         }
                     }
 
                     set
                     {
                         baseList[index] = value;
-                        if (index == 0)
+                        if(index == 0)
                         {
-                            if (parent.beg != null)
+                            if(parent.beg != null)
                                 parent.beg.bonds.Remove(parent);
                             parent.beg = parent.mol.GetAtomRef(value);
                             parent.beg.bonds.Add(parent);
                         }
-                        else if (index == 1)
+                        else if(index == 1)
                         {
-                            if (parent.end != null)
+                            if(parent.end != null)
                                 parent.end.bonds.Remove(parent);
                             parent.end = parent.mol.GetAtomRef(value);
                             parent.end.bonds.Add(parent);
@@ -1704,14 +1709,14 @@ namespace NCDK.Silent
 
             public AtomRef GetOtherRef(IAtom atom)
             {
-                if (atom == beg)
+                if(atom == beg)
                     return end;
-                else if (atom == end)
+                else if(atom == end)
                     return beg;
                 atom = AtomContainer2.Unbox(atom);
-                if (atom == beg.Deref())
+                if(atom == beg.Deref())
                     return end;
-                else if (atom == end.Deref())
+                else if(atom == end.Deref())
                     return beg;
                 return null;
             }
@@ -1724,16 +1729,16 @@ namespace NCDK.Silent
                 Trace.Assert(atoms.Length == 2);
                 base.SetAtoms(atoms);
                 // check for swap: intended ref check
-                if (object.Equals(atoms[0], end) && object.Equals(atoms[1], beg))
+                if(object.Equals(atoms[0], end) && object.Equals(atoms[1], beg))
                 {
                     BaseAtomRef tmp = beg;
                     beg = end;
                     end = tmp;
                     return;
                 }
-                if (beg != null)
+                if(beg != null)
                     beg.bonds.Remove(this);
-                if (end != null)
+                if(end != null)
                     end.bonds.Remove(this);
                 beg = mol.GetAtomRef(atoms[0]);
                 end = mol.GetAtomRef(atoms[1]);
@@ -1748,7 +1753,7 @@ namespace NCDK.Silent
 
             public override bool Equals(object obj)
             {
-                if (obj is BondRef)
+                if(obj is BondRef)
                     return Deref().Equals(((BondRef)obj).Deref());
                 return Deref().Equals(obj);
             }
@@ -1783,7 +1788,7 @@ namespace NCDK.Silent
 
             public override bool Equals(object obj)
             {
-                if (obj is BondRef)
+                if(obj is BondRef)
                     return Deref().Equals(((BondRef)obj).Deref());
                 return Deref().Equals(obj);
             }
@@ -1863,9 +1868,9 @@ namespace NCDK.Silent
             public bool Contains(TInterface item) => list.Contains((TRef)item);
             public void CopyTo(TInterface[] array, int arrayIndex)
             {
-                for (int i = 0; i < list.Count; i++)
+                for(int i = 0; i < list.Count; i++)
                     array[arrayIndex + i] = list[i];
-            }            
+            }
             public IEnumerator<TInterface> GetEnumerator() => list.Cast<TInterface>().GetEnumerator();
             public abstract int IndexOf(TInterface atom);
             public void Insert(int index, TInterface item)
@@ -1892,7 +1897,7 @@ namespace NCDK.Silent
             {
                 get
                 {
-                    if (index >= this.parent.atoms.Count)
+                    if(index >= this.parent.atoms.Count)
                         throw new ArgumentOutOfRangeException(nameof(index), $"No atom at index: {index}");
                     return parent.atoms[index];
                 }
@@ -1900,41 +1905,41 @@ namespace NCDK.Silent
                 set
                 {
                     var atom = value;
-                    if (atom == null)
+                    if(atom == null)
                         throw new NullReferenceException("Null atom provided");
-                    if (parent.atoms.Contains(atom))
+                    if(parent.atoms.Contains(atom))
                         throw new InvalidOperationException($"Atom already in container at index: {this.IndexOf(atom)}");
-                    if (index < 0 || index >= parent.atoms.Count)
+                    if(index < 0 || index >= parent.atoms.Count)
                         throw new ArgumentOutOfRangeException(nameof(index), $"No current atom at index: {index}");
                     var rep = parent.NewAtomRef(atom);
                     var org = parent.atoms[index];
                     parent.atoms[index] = rep;
                     parent.atoms[index].SetIndex(index);
-                    foreach (var bond in org.Bonds.ToArray())
+                    foreach(var bond in org.Bonds.ToArray())
                     {
-                        if (bond.Begin.Equals(org))
+                        if(bond.Begin.Equals(org))
                             bond.Atoms[0] = rep;
-                        else if (bond.End.Equals(org))
+                        else if(bond.End.Equals(org))
                             bond.Atoms[1] = rep;
                     }
 
                     // update single electrons and lone pairs
-                    foreach (var ec in parent.electrons)
+                    foreach(var ec in parent.electrons)
                     {
-                        if (org.Equals(ec.Atom))
+                        if(org.Equals(ec.Atom))
                             ec.Atom = rep;
                     }
-                    foreach (var lp in parent.lonepairs)
+                    foreach(var lp in parent.lonepairs)
                     {
-                        if (org.Equals(lp.Atom))
+                        if(org.Equals(lp.Atom))
                             lp.Atom = rep;
                     }
 
                     // update stereo
-                    for (int i = 0; i < parent.stereo.Count; i++)
+                    for(int i = 0; i < parent.stereo.Count; i++)
                     {
                         var se = parent.stereo[i];
-                        if (se.Contains(org))
+                        if(se.Contains(org))
                         {
                             var map = new CDKObjectMap();
                             map.Add(org, rep);
@@ -1952,7 +1957,7 @@ namespace NCDK.Silent
 
             public override void Add(IAtom atom)
             {
-                if (parent.Contains(atom))
+                if(parent.Contains(atom))
                     return;
                 var aref = parent.NewAtomRef(atom);
                 aref.SetIndex(parent.atoms.Count);
@@ -1962,7 +1967,7 @@ namespace NCDK.Silent
             public override void RemoveAt(int index)
             {
                 parent.atoms[index].SetIndex(-1);
-                for (int i = index; i < parent.atoms.Count - 1; i++)
+                for(int i = index; i < parent.atoms.Count - 1; i++)
                 {
                     parent.atoms[i] = parent.atoms[i + 1];
                     parent.atoms[i].SetIndex(i);
@@ -1973,7 +1978,7 @@ namespace NCDK.Silent
             public override bool Remove(IAtom item)
             {
                 var index = parent.Atoms.IndexOf(item);
-                if (index != -1)
+                if(index != -1)
                 {
                     RemoveAt(index);
                     return true;
@@ -2001,7 +2006,7 @@ namespace NCDK.Silent
             {
                 get
                 {
-                    if (index >= parent.bonds.Count)
+                    if(index >= parent.bonds.Count)
                         throw new ArgumentOutOfRangeException(nameof(index), "No bond at index: " + index);
                     return parent.bonds[index];
                 }
@@ -2032,7 +2037,7 @@ namespace NCDK.Silent
                 BondRef bond = null;
                 bond = parent.bonds[index];
                 parent.bonds[index].SetIndex(-1);
-                for (int i = index; i < parent.bonds.Count - 1; i++)
+                for(int i = index; i < parent.bonds.Count - 1; i++)
                 {
                     parent.bonds[i] = parent.bonds[i + 1];
                     parent.bonds[i].SetIndex(i);
@@ -2044,7 +2049,7 @@ namespace NCDK.Silent
             public override bool Remove(IBond item)
             {
                 var index = parent.Bonds.IndexOf(item);
-                if (index != -1)
+                if(index != -1)
                 {
                     RemoveAt(index);
                     return true;
@@ -2061,27 +2066,27 @@ namespace NCDK.Silent
 
         internal static IAtom Unbox(IAtom atom)
         {
-            while (atom is AtomRef)
+            while(atom is AtomRef)
                 atom = ((AtomRef)atom).Deref();
             return atom;
         }
 
         internal static IBond Unbox(IBond bond)
         {
-            while (bond is BondRef)
+            while(bond is BondRef)
                 bond = ((BondRef)bond).Deref();
             return bond;
         }
 
         internal BaseAtomRef GetAtomRefUnsafe(IAtom atom)
         {
-            if (atom.Container == this &&
+            if(atom.Container == this &&
                 atom.Index != -1 &&
                 atoms[atom.Index] == atom)
                 return (BaseAtomRef)atom;
             atom = Unbox(atom);
-            for (int i = 0; i < atoms.Count; i++)
-                if (object.Equals(atoms[i], atom))
+            for(int i = 0; i < atoms.Count; i++)
+                if(object.Equals(atoms[i], atom))
                     return atoms[i];
             return null;
         }
@@ -2089,7 +2094,7 @@ namespace NCDK.Silent
         internal BaseAtomRef GetAtomRef(IAtom atom)
         {
             var atomref = GetAtomRefUnsafe(atom);
-            if (atomref == null)
+            if(atomref == null)
                 throw new NoSuchAtomException("Atom is not a member of this AtomContainer");
             return atomref;
         }
@@ -2097,23 +2102,23 @@ namespace NCDK.Silent
         internal BaseAtomRef NewAtomRef(IAtom atom)
         {
             // most common implementation we'll encounter..
-            if (atom.GetType() == typeof(Atom))
+            if(atom.GetType() == typeof(Atom))
                 return new BaseAtomRef(this, atom);
             atom = Unbox(atom);
             // re-check the common case now we've un-boxed
-            if (atom.GetType() == typeof(Atom))
+            if(atom.GetType() == typeof(Atom))
             {
                 return new BaseAtomRef(this, atom);
             }
-            else if (atom is IPseudoAtom)
+            else if(atom is IPseudoAtom)
             {
                 return new PsuedoAtomRef(this, (IPseudoAtom)atom);
             }
-            else if (atom is IQueryAtom)
+            else if(atom is IQueryAtom)
             {
                 return new QueryAtomRef(this, (IQueryAtom)atom);
             }
-            else if (atom is IPDBAtom)
+            else if(atom is IPDBAtom)
             {
                 return new PdbAtomRef(this, (IPDBAtom)atom);
             }
@@ -2125,13 +2130,13 @@ namespace NCDK.Silent
 
         private BondRef GetBondRefUnsafe(IBond bond)
         {
-            if (bond.Container == this &&
+            if(bond.Container == this &&
                 bond.Index != -1 &&
                 bonds[bond.Index] == bond)
                 return (BondRef)bond;
             bond = Unbox(bond);
-            for (int i = 0; i < bonds.Count; i++)
-                if (bonds[i].Deref() == bond)
+            for(int i = 0; i < bonds.Count; i++)
+                if(bonds[i].Deref() == bond)
                     return bonds[i];
             return null;
         }
@@ -2140,17 +2145,17 @@ namespace NCDK.Silent
         {
             var beg = bond.Begin == null ? null : GetAtomRef(bond.Begin);
             var end = bond.End == null ? null : GetAtomRef(bond.End);
-            if (bond.GetType() == typeof(Bond))
+            if(bond.GetType() == typeof(Bond))
                 return new BaseBondRef(this, bond, beg, end);
             bond = Unbox(bond);
-            if (bond is IQueryBond)
+            if(bond is IQueryBond)
                 return new QueryBondRef(this, (IQueryBond)bond, beg, end);
             return new BaseBondRef(this, bond, beg, end);
         }
 
         private void AddToEndpoints(BaseBondRef bondref)
         {
-            if (bondref.Atoms.Count == 2)
+            if(bondref.Atoms.Count == 2)
             {
                 var beg = GetAtomRef(bondref.Begin);
                 var end = GetAtomRef(bondref.End);
@@ -2159,7 +2164,7 @@ namespace NCDK.Silent
             }
             else
             {
-                for (int i = 0; i < bondref.Atoms.Count; i++)
+                for(int i = 0; i < bondref.Atoms.Count; i++)
                 {
                     GetAtomRef(bondref.Atoms[i]).bonds.Add(bondref);
                 }
@@ -2168,18 +2173,18 @@ namespace NCDK.Silent
 
         private void DelFromEndpoints(BondRef bondref)
         {
-            for (int i = 0; i < bondref.Atoms.Count; i++)
+            for(int i = 0; i < bondref.Atoms.Count; i++)
             {
                 var aref = GetAtomRefUnsafe(bondref.Atoms[i]);
                 // atom may have already been deleted, naughty!
-                if (aref != null)
+                if(aref != null)
                     aref.bonds.Remove(bondref);
             }
         }
 
         private void ClearAdjacency()
         {
-            for (int i = 0; i < atoms.Count; i++)
+            for(int i = 0; i < atoms.Count; i++)
             {
                 atoms[i].bonds.Clear();
             }
@@ -2190,12 +2195,12 @@ namespace NCDK.Silent
             var newatoms = newatoms_.ToList();
             bool reindexBonds = false;
 
-            for (int i = 0; i < newatoms.Count; i++)
+            for(int i = 0; i < newatoms.Count; i++)
             {
-                if (i >= atoms.Count)
+                if(i >= atoms.Count)
                     atoms.Add(null);
 
-                if (newatoms[i].Container == this)
+                if(newatoms[i].Container == this)
                 {
                     atoms[i] = (BaseAtomRef)newatoms[i];
                     atoms[i].SetIndex(i);
@@ -2210,7 +2215,7 @@ namespace NCDK.Silent
 
             // delete rest of the array
             {
-                for (int i = atoms.Count - 1; i >= newatoms.Count; i--)
+                for(int i = atoms.Count - 1; i >= newatoms.Count; i--)
                 {
                     atoms.RemoveAt(i);
                 }
@@ -2219,10 +2224,10 @@ namespace NCDK.Silent
             // ensure adjacency information is in sync, this code is only
             // called if the bonds are non-empty and 'external' atoms have been
             // added
-            if (bonds.Count > 0 && reindexBonds)
+            if(bonds.Count > 0 && reindexBonds)
             {
                 ClearAdjacency();
-                for (int i = 0; i < bonds.Count; i++)
+                for(int i = 0; i < bonds.Count; i++)
                     AddToEndpoints(bonds[i]);
             }
 
@@ -2233,14 +2238,14 @@ namespace NCDK.Silent
             var newbonds = newbonds_.ToList();
 
             // replace existing bonds to clear their adjacency
-            if (bonds.Count > 0) 
+            if(bonds.Count > 0)
             {
                 ClearAdjacency();
             }
 
-            for (int i = 0; i < newbonds.Count; i++) 
+            for(int i = 0; i < newbonds.Count; i++)
             {
-                if (i >= bonds.Count)
+                if(i >= bonds.Count)
                     bonds.Add(null);
 
                 BaseBondRef bondRef = NewBondRef(newbonds[i]);
@@ -2248,16 +2253,16 @@ namespace NCDK.Silent
                 AddToEndpoints(bondRef);
                 bonds[i] = bondRef;
             }
-            for (int i = bonds.Count - 1; i >= newbonds.Count; i--)
+            for(int i = bonds.Count - 1; i >= newbonds.Count; i--)
                 bonds.RemoveAt(i);
 
         }
 
         public int IndexOf(ISingleElectron electron)
         {
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
-                if (electrons[i] == electron)
+                if(electrons[i] == electron)
                     return i;
             }
             return -1;
@@ -2265,9 +2270,9 @@ namespace NCDK.Silent
 
         public int IndexOf(ILonePair pair)
         {
-            for (int i = 0; i < lonepairs.Count; i++)
+            for(int i = 0; i < lonepairs.Count; i++)
             {
-                if (lonepairs[i] == pair) 
+                if(lonepairs[i] == pair)
                     return i;
             }
             return -1;
@@ -2275,13 +2280,13 @@ namespace NCDK.Silent
 
         public IElectronContainer GetElectronContainer(int number)
         {
-            if (number < bonds.Count) 
+            if(number < bonds.Count)
                 return bonds[number];
             number -= bonds.Count;
-            if (number < lonepairs.Count) 
+            if(number < lonepairs.Count)
                 return lonepairs[number];
             number -= lonepairs.Count;
-            if (number < electrons.Count) 
+            if(number < electrons.Count)
                 return electrons[number];
             return null;
         }
@@ -2307,7 +2312,7 @@ namespace NCDK.Silent
         {
             var aref = GetAtomRef(atom);
             var nbrs = new List<IAtom>(aref.Bonds.Count);
-            foreach (var bond in aref.Bonds)
+            foreach(var bond in aref.Bonds)
             {
                 nbrs.Add(bond.GetOther(atom));
             }
@@ -2324,10 +2329,10 @@ namespace NCDK.Silent
         {
             GetAtomRef(atom);
             var lps = new List<ILonePair>();
-            for (int i = 0; i < lonepairs.Count; i++)
+            for(int i = 0; i < lonepairs.Count; i++)
             {
-                if (lonepairs[i].Contains(atom)) 
-                lps.Add(lonepairs[i]);
+                if(lonepairs[i].Contains(atom))
+                    lps.Add(lonepairs[i]);
             }
             return lps;
         }
@@ -2336,9 +2341,9 @@ namespace NCDK.Silent
         {
             GetAtomRef(atom);
             var ses = new List<ISingleElectron>();
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
-                if (electrons[i].Contains(atom))
+                if(electrons[i].Contains(atom))
                     ses.Add(electrons[i]);
             }
             return ses;
@@ -2348,19 +2353,19 @@ namespace NCDK.Silent
         {
             var aref = GetAtomRef(atom);
             var ecs = new List<IElectronContainer>();
-            
-            foreach (var bond in aref.Bonds)
+
+            foreach(var bond in aref.Bonds)
             {
                 ecs.Add(bond);
             }
-            for (int i = 0; i < lonepairs.Count; i++)
+            for(int i = 0; i < lonepairs.Count; i++)
             {
-                if (lonepairs[i].Contains(atom))
+                if(lonepairs[i].Contains(atom))
                     ecs.Add(lonepairs[i]);
             }
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
-                if (electrons[i].Contains(atom))
+                if(electrons[i].Contains(atom))
                     ecs.Add(electrons[i]);
             }
             return ecs;
@@ -2369,10 +2374,10 @@ namespace NCDK.Silent
         public double GetBondOrderSum(IAtom atom)
         {
             double count = 0;
-            foreach (var bond in GetAtomRef(atom).Bonds)
+            foreach(var bond in GetAtomRef(atom).Bonds)
             {
                 BondOrder order = bond.Order;
-                if (!order.IsUnset())
+                if(!order.IsUnset())
                 {
                     count += order.Numeric();
                 }
@@ -2383,11 +2388,11 @@ namespace NCDK.Silent
         public BondOrder GetMaximumBondOrder(IAtom atom)
         {
             var max = BondOrder.Unset;
-            foreach (var bond in GetAtomRef(atom).Bonds)
-                if (max == BondOrder.Unset || bond.Order.Numeric() > max.Numeric())
+            foreach(var bond in GetAtomRef(atom).Bonds)
+                if(max == BondOrder.Unset || bond.Order.Numeric() > max.Numeric())
                     max = bond.Order;
-            if (max == BondOrder.Unset)
-                if (atom.ImplicitHydrogenCount != null 
+            if(max == BondOrder.Unset)
+                if(atom.ImplicitHydrogenCount != null
                  && atom.ImplicitHydrogenCount > 0)
                     max = BondOrder.Single;
                 else
@@ -2398,11 +2403,11 @@ namespace NCDK.Silent
         public BondOrder GetMinimumBondOrder(IAtom atom)
         {
             var min = BondOrder.Unset;
-            foreach (var bond in GetAtomRef(atom).Bonds)
-                if (min == BondOrder.Unset || bond.Order.Numeric() < min.Numeric())
+            foreach(var bond in GetAtomRef(atom).Bonds)
+                if(min == BondOrder.Unset || bond.Order.Numeric() < min.Numeric())
                     min = bond.Order;
-            if (min == BondOrder.Unset)
-                if (atom.ImplicitHydrogenCount != null 
+            if(min == BondOrder.Unset)
+                if(atom.ImplicitHydrogenCount != null
                  && atom.ImplicitHydrogenCount > 0)
                     min = BondOrder.Single;
                 else
@@ -2413,36 +2418,36 @@ namespace NCDK.Silent
         public void Add(IAtomContainer that)
         {
             // mark visited
-            foreach (IAtom atom in that.Atoms)
+            foreach(IAtom atom in that.Atoms)
                 atom.IsVisited = false;
-            foreach (IBond bond in that.Bonds)
+            foreach(IBond bond in that.Bonds)
                 bond.IsVisited = false;
-            foreach (IAtom atom in this.Atoms)
+            foreach(IAtom atom in this.Atoms)
                 atom.IsVisited = true;
-            foreach (IBond bond in this.Bonds)
+            foreach(IBond bond in this.Bonds)
                 bond.IsVisited = true;
 
             // do stereo elements first
-            foreach (var se in that.StereoElements)
+            foreach(var se in that.StereoElements)
             {
-                if (se is ITetrahedralChirality 
+                if(se is ITetrahedralChirality
                  && !((ITetrahedralChirality)se).ChiralAtom.IsVisited)
                     this.StereoElements.Add(se);
-                else if (se is IDoubleBondStereochemistry 
+                else if(se is IDoubleBondStereochemistry
                       && !((IDoubleBondStereochemistry)se).StereoBond.IsVisited)
                     this.StereoElements.Add(se);
-                else if (se is ExtendedTetrahedral 
+                else if(se is ExtendedTetrahedral
                       && !((ExtendedTetrahedral)se).Focus.IsVisited)
                     this.StereoElements.Add(se);
             }
 
-            foreach (var atom in that.Atoms.Where(atom => !atom.IsVisited))
+            foreach(var atom in that.Atoms.Where(atom => !atom.IsVisited))
                 Atoms.Add(atom);
-            foreach (var bond in that.Bonds.Where(bond => !bond.IsVisited))
+            foreach(var bond in that.Bonds.Where(bond => !bond.IsVisited))
                 Bonds.Add(bond);
-            foreach (var lonePair in that.LonePairs.Where(lonePair => !lonePair.IsVisited))
+            foreach(var lonePair in that.LonePairs.Where(lonePair => !lonePair.IsVisited))
                 LonePairs.Add(lonePair);
-            foreach (var singleElectron in that.SingleElectrons.Where(singleElectron => !Contains(singleElectron)))
+            foreach(var singleElectron in that.SingleElectrons.Where(singleElectron => !Contains(singleElectron)))
                 SingleElectrons.Add(singleElectron);
 
         }
@@ -2450,30 +2455,30 @@ namespace NCDK.Silent
         /// <inheritdoc/>
         public void AddElectronContainer(IElectronContainer electronContainer)
         {
-            switch (electronContainer)
+            switch(electronContainer)
             {
-                case IBond bond:
-                    Bonds.Add(bond);
-                    return;
-                case ILonePair lonePair:
-                    LonePairs.Add(lonePair);
-                    return;
-                case ISingleElectron singleElectron:
-                    SingleElectrons.Add(singleElectron);
-                    return;
+            case IBond bond:
+                Bonds.Add(bond);
+                return;
+            case ILonePair lonePair:
+                LonePairs.Add(lonePair);
+                return;
+            case ISingleElectron singleElectron:
+                SingleElectrons.Add(singleElectron);
+                return;
             }
         }
 
         /// <inheritdoc/>
         public void Remove(IAtomContainer atomContainer)
         {
-            foreach (var bond in atomContainer.Bonds)
+            foreach(var bond in atomContainer.Bonds)
                 Bonds.Remove(bond);
-            foreach (var lonePair in atomContainer.LonePairs)
+            foreach(var lonePair in atomContainer.LonePairs)
                 LonePairs.Remove(lonePair);
-            foreach (var singleElectron in atomContainer.SingleElectrons)
+            foreach(var singleElectron in atomContainer.SingleElectrons)
                 SingleElectrons.Remove(singleElectron);
-            foreach (var atom in atomContainer.Atoms)
+            foreach(var atom in atomContainer.Atoms)
                 Atoms.Remove(atom);
 
         }
@@ -2481,7 +2486,7 @@ namespace NCDK.Silent
         public IBond RemoveBond(IAtom beg, IAtom end)
         {
             var bond = GetBond(beg, end);
-            if (bond != null)
+            if(bond != null)
                 Bonds.Remove(bond);
             return bond;
         }
@@ -2489,17 +2494,17 @@ namespace NCDK.Silent
         /// <inheritdoc/>
         public void Remove(IElectronContainer electronContainer)
         {
-            switch (electronContainer)
+            switch(electronContainer)
             {
-                case IBond bond:
-                    Bonds.Remove(bond);
-                    return;
-                case ILonePair lonePair:
-                    LonePairs.Remove(lonePair);
-                    return;
-                case ISingleElectron singleElectron:
-                    SingleElectrons.Remove(singleElectron);
-                    return;
+            case IBond bond:
+                Bonds.Remove(bond);
+                return;
+            case ILonePair lonePair:
+                LonePairs.Remove(lonePair);
+                return;
+            case ISingleElectron singleElectron:
+                SingleElectrons.Remove(singleElectron);
+                return;
             }
         }
 
@@ -2514,15 +2519,15 @@ namespace NCDK.Silent
         public void RemoveAtom(IAtom atom)
         {
             var atomref = GetAtomRefUnsafe(atom);
-            if (atomref != null)
+            if(atomref != null)
             {
-                if (atomref.Bonds.Count > 0)
+                if(atomref.Bonds.Count > 0)
                 {
                     // update bonds
                     int newNumBonds = 0;
-                    for (int i = 0; i < bonds.Count; i++)
+                    for(int i = 0; i < bonds.Count; i++)
                     {
-                        if (!bonds[i].Contains(atom))
+                        if(!bonds[i].Contains(atom))
                         {
                             bonds[newNumBonds] = bonds[i];
                             bonds[newNumBonds].SetIndex(newNumBonds);
@@ -2535,16 +2540,16 @@ namespace NCDK.Silent
                         }
                     }
                     {
-                        for (int j = bonds.Count - 1; j >= newNumBonds; j--)
+                        for(int j = bonds.Count - 1; j >= newNumBonds; j--)
                             bonds.RemoveAt(j);
                     }
                 }
 
                 // update single electrons
                 int newNumSingleElectrons = 0;
-                for (int i = 0; i < electrons.Count; i++)
+                for(int i = 0; i < electrons.Count; i++)
                 {
-                    if (!electrons[i].Contains(atom))
+                    if(!electrons[i].Contains(atom))
                     {
                         electrons[newNumSingleElectrons] = electrons[i];
                         newNumSingleElectrons++;
@@ -2555,15 +2560,15 @@ namespace NCDK.Silent
                     }
                 }
                 {
-                    for (int j = electrons.Count - 1; j >= newNumSingleElectrons; j--)
+                    for(int j = electrons.Count - 1; j >= newNumSingleElectrons; j--)
                         electrons.RemoveAt(j);
                 }
 
                 // update lone pairs
                 int newNumLonePairs = 0;
-                for (int i = 0; i < lonepairs.Count; i++)
+                for(int i = 0; i < lonepairs.Count; i++)
                 {
-                    if (!lonepairs[i].Contains(atom))
+                    if(!lonepairs[i].Contains(atom))
                     {
                         lonepairs[newNumLonePairs] = lonepairs[i];
                         newNumLonePairs++;
@@ -2574,16 +2579,16 @@ namespace NCDK.Silent
                     }
                 }
                 {
-                    for (int j = lonepairs.Count - 1; j >= newNumLonePairs; j--)
+                    for(int j = lonepairs.Count - 1; j >= newNumLonePairs; j--)
                         lonepairs.RemoveAt(j);
                 }
 
                 var atomElements = new List<IStereoElement<IChemObject, IChemObject>>();
-                foreach (var element in stereo)
+                foreach(var element in stereo)
                 {
-                    if (element.Contains(atom)) atomElements.Add(element);
+                    if(element.Contains(atom)) atomElements.Add(element);
                 }
-                foreach (var ae in atomElements)
+                foreach(var ae in atomElements)
                     stereo.Remove(ae);
 
                 Atoms.RemoveAt(atomref.Index);
@@ -2633,11 +2638,11 @@ namespace NCDK.Silent
         /// <inheritdoc/>
         public bool Contains(IElectronContainer electronContainer)
         {
-            if (electronContainer is IBond bond)
+            if(electronContainer is IBond bond)
                 return Contains(bond);
-            if (electronContainer is ILonePair lonePair)
+            if(electronContainer is ILonePair lonePair)
                 return Contains(lonePair);
-            if (electronContainer is ISingleElectron singleElectron)
+            if(electronContainer is ISingleElectron singleElectron)
                 return Contains(singleElectron);
             return false;
         }
@@ -2668,10 +2673,10 @@ namespace NCDK.Silent
             Append(sb, bonds, "B");
             Append(sb, lonepairs, "LP");
             Append(sb, electrons, "SE");
-            if (stereo.Count > 0)
+            if(stereo.Count > 0)
             {
                 sb.Append(", ST:[#").Append(stereo.Count);
-                foreach (var elements in stereo)
+                foreach(var elements in stereo)
                     sb.Append(", ").Append(elements.ToString());
                 sb.Append(']');
             }
@@ -2680,10 +2685,10 @@ namespace NCDK.Silent
 
         private static void Append<T>(StringBuilder sb, ICollection<T> os, string tag)
         {
-            if (os.Count > 0)
+            if(os.Count > 0)
             {
                 sb.Append(", #").Append(tag).Append(":").Append(os.Count);
-                foreach (var e in os)
+                foreach(var e in os)
                     sb.Append(", ").Append(e.ToString());
             }
         }
@@ -2714,23 +2719,23 @@ namespace NCDK.Silent
 
             // clone atoms
             IAtom[] c_atoms = new IAtom[this.atoms.Count];
-            for (int i = 0; i < this.atoms.Count; i++)
+            for(int i = 0; i < this.atoms.Count; i++)
             {
                 c_atoms[i] = (IAtom)this.atoms[i].Deref().Clone(map);
             }
             clone.SetAtoms(c_atoms);
-            for (int i = 0; i < c_atoms.Length; i++)
+            for(int i = 0; i < c_atoms.Length; i++)
                 refmap.Set(this.atoms[i], clone.Atoms[i]);
 
             // clone bonds using a the mappings from the original to the clone
             IBond[] bonds = new IBond[this.bonds.Count];
-            for (int i = 0; i < this.bonds.Count; i++)
+            for(int i = 0; i < this.bonds.Count; i++)
             {
                 BondRef original = this.bonds[i];
                 IBond bond = (IBond)original.Deref().Clone(map);
                 int n = bond.Atoms.Count;
                 IAtom[] members = new IAtom[n];
-                for (int j = 0; j < n; j++)
+                for(int j = 0; j < n; j++)
                 {
                     members[j] = map.Get(original.Atoms[j]);
                 }
@@ -2739,42 +2744,42 @@ namespace NCDK.Silent
                 bonds[i] = bond;
             }
             clone.SetBonds(bonds);
-            for (int i = 0; i < bonds.Length; i++)
+            for(int i = 0; i < bonds.Length; i++)
                 refmap.Set(this.bonds[i], clone.Bonds[i]);
 
             // clone lone pairs (we can't use an array to buffer as there is no setLonePairs())
-            for (int i = 0; i < this.lonepairs.Count; i++)
+            for(int i = 0; i < this.lonepairs.Count; i++)
             {
                 ILonePair original = this.lonepairs[i];
                 ILonePair pair = (ILonePair)original.Clone();
 
-                if (pair.Atom != null)
+                if(pair.Atom != null)
                     pair.Atom = refmap.Get(original.Atom);
 
                 clone.LonePairs.Add(pair);
             }
 
             // clone single electrons (we can't use an array to buffer as there is no setSingleElectrons())
-            for (int i = 0; i < electrons.Count; i++)
+            for(int i = 0; i < electrons.Count; i++)
             {
                 ISingleElectron original = this.electrons[i];
                 ISingleElectron electron = (ISingleElectron)original.Clone();
 
-                if (electron.Atom != null)
+                if(electron.Atom != null)
                     electron.Atom = refmap.Get(original.Atom);
 
                 clone.SingleElectrons.Add(electron);
             }
 
             // map each stereo element to a new instance in the clone
-            foreach (var element in stereo)
+            foreach(var element in stereo)
             {
                 clone.StereoElements.Add((IStereoElement<IChemObject, IChemObject>)element.Clone(refmap));
             }
 
             // update sgroups
             var sgroups = this.GetCtabSgroups();
-            if (sgroups != null)
+            if(sgroups != null)
             {
                 clone.SetCtabSgroups(SgroupManipulator.Copy(sgroups, refmap));
             }
