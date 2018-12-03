@@ -65,7 +65,7 @@ namespace NCDK.Modelings.Builder3D
         private void AddTemplateMol(IAtomContainer mol)
         {
             templates.Add(mol);
-            var query = QueryAtomContainerCreator.CreateAnyAtomAnyBondContainer(mol, false);
+            var query = QueryAtomContainerCreator.CreateAnyAtomContainer(mol, false);
             queries.Add(query);
             for(int i = 0; i < mol.Atoms.Count; i++)
             {
