@@ -83,11 +83,11 @@ namespace NCDK.Modelings.Builder3D
         public static ModelBuilder3D GetInstance(TemplateHandler3D templateHandler, string ffname,
                 IChemObjectBuilder chemObjectBuilder)
         {
-            if (ffname == null || ffname.Length == 0) throw new CDKException("The given ffname is null or empty!");
-            if (templateHandler == null) throw new CDKException("The given template handler is null!");
+            if(ffname == null || ffname.Length == 0) throw new CDKException("The given ffname is null or empty!");
+            if(templateHandler == null) throw new CDKException("The given template handler is null!");
 
             string builderCode = templateHandler.GetType().FullName + "#" + ffname;
-            if (!memyselfandi.ContainsKey(builderCode))
+            if(!memyselfandi.ContainsKey(builderCode))
             {
                 ModelBuilder3D builder = new ModelBuilder3D(templateHandler, ffname, chemObjectBuilder);
                 memyselfandi[builderCode] = builder;
@@ -116,7 +116,7 @@ namespace NCDK.Modelings.Builder3D
         /// <param name="ffname">forceField name</param>
         private void SetForceField(string ffname, IChemObjectBuilder builder)
         {
-            if (ffname == null)
+            if(ffname == null)
             {
                 ffname = "mm2";
             }
@@ -126,7 +126,7 @@ namespace NCDK.Modelings.Builder3D
                 ffc.SetForceFieldConfigurator(ffname, builder);
                 parameterSet = ffc.GetParameterSet();
             }
-            catch (CDKException ex1)
+            catch(CDKException ex1)
             {
                 Trace.TraceError($"Problem with ForceField configuration due to>{ex1.Message}");
                 Debug.WriteLine(ex1);
@@ -142,14 +142,14 @@ namespace NCDK.Modelings.Builder3D
             var originalAtomTypeNames = molecule.Atoms.Select(n => n.AtomTypeName).ToArray();
 
             Debug.WriteLine("******** GENERATE COORDINATES ********");
-            foreach (var atom in molecule.Atoms)
+            foreach(var atom in molecule.Atoms)
             {
                 atom.IsPlaced = false;
                 atom.IsVisited = false;
             }
             //CHECK FOR CONNECTIVITY!
             Debug.WriteLine($"#atoms>{molecule.Atoms.Count}");
-            if (!ConnectivityChecker.IsConnected(molecule))
+            if(!ConnectivityChecker.IsConnected(molecule))
                 throw new CDKException("Molecule is NOT connected, could not layout.");
 
             // setup helper classes
@@ -157,11 +157,11 @@ namespace NCDK.Modelings.Builder3D
             AtomPlacer3D ap3d = new AtomPlacer3D(parameterSet);
             AtomTetrahedralLigandPlacer3D atlp3d = new AtomTetrahedralLigandPlacer3D(parameterSet);
 
-            if (clone)
+            if(clone)
                 molecule = (IAtomContainer)molecule.Clone();
             atomPlacer.Molecule = molecule;
 
-            if (ap3d.NumberOfUnplacedHeavyAtoms(molecule) == 1)
+            if(ap3d.NumberOfUnplacedHeavyAtoms(molecule) == 1)
             {
                 Debug.WriteLine("Only one Heavy Atom");
                 ap3d.GetUnplacedHeavyAtom(molecule).Point3D = new Vector3(0.0, 0.0, 0.0);
@@ -169,7 +169,7 @@ namespace NCDK.Modelings.Builder3D
                 {
                     atlp3d.Add3DCoordinatesForSinglyBondedLigands(molecule);
                 }
-                catch (CDKException ex3)
+                catch(CDKException ex3)
                 {
                     Trace.TraceError($"PlaceSubstitutensERROR: Cannot place substitutents due to:{ex3.Message}");
                     Debug.WriteLine(ex3);
@@ -184,9 +184,9 @@ namespace NCDK.Modelings.Builder3D
             int numberOfRingAtoms = 0;
 
             IReadOnlyList<IRingSet> ringSystems = null;
-            if (ringSetMolecule.Count > 0)
+            if(ringSetMolecule.Count > 0)
             {
-                if (templateHandler == null)
+                if(templateHandler == null)
                 {
                     throw new CDKException("You are trying to generate coordinates for a molecule with rings, but you have no template handler set. Please do SetTemplateHandler() before generation!");
                 }
@@ -195,7 +195,7 @@ namespace NCDK.Modelings.Builder3D
                 IAtomContainer largestRingSetContainer = RingSetManipulator.GetAllInOneContainer(largestRingSet);
                 numberOfRingAtoms = largestRingSetContainer.Atoms.Count;
                 templateHandler.MapTemplates(largestRingSetContainer, numberOfRingAtoms);
-                if (!CheckAllRingAtomsHasCoordinates(largestRingSetContainer))
+                if(!CheckAllRingAtomsHasCoordinates(largestRingSetContainer))
                 {
                     throw new CDKException("RingAtomLayoutError: Not every ring atom is placed! Molecule cannot be layout.");
                 }
@@ -221,14 +221,14 @@ namespace NCDK.Modelings.Builder3D
             {
                 atlp3d.Add3DCoordinatesForSinglyBondedLigands(molecule);
             }
-            catch (CDKException ex3)
+            catch(CDKException ex3)
             {
                 Trace.TraceError($"PlaceSubstitutensERROR: Cannot place substitutents due to:{ex3.Message}");
                 Debug.WriteLine(ex3);
                 throw new CDKException("PlaceSubstitutensERROR: Cannot place substitutents due to:" + ex3.Message, ex3);
             }
             // restore the original atom type names
-            for (int i = 0; i < originalAtomTypeNames.Length; i++)
+            for(int i = 0; i < originalAtomTypeNames.Length; i++)
             {
                 molecule.Atoms[i].AtomTypeName = originalAtomTypeNames[i];
             }
@@ -243,9 +243,9 @@ namespace NCDK.Modelings.Builder3D
         private static IRingSet GetRingSetOfAtom(IReadOnlyList<IRingSet> ringSystems, IAtom atom)
         {
             IRingSet ringSetOfAtom = null;
-            for (int i = 0; i < ringSystems.Count; i++)
+            for(int i = 0; i < ringSystems.Count; i++)
             {
-                if (((IRingSet)ringSystems[i]).Contains(atom))
+                if(((IRingSet)ringSystems[i]).Contains(atom))
                 {
                     return (IRingSet)ringSystems[i];
                 }
@@ -269,7 +269,7 @@ namespace NCDK.Modelings.Builder3D
             {
                 safetyCounter++;
                 atom = ap3d.GetNextPlacedHeavyAtomWithUnplacedRingNeighbour(molecule);
-                if (atom != null)
+                if(atom != null)
                 {
                     //Debug.WriteLine("layout RingSystem...");
                     var unplacedAtom = ap3d.GetUnplacedRingHeavyAtom(molecule, atom);
@@ -277,7 +277,7 @@ namespace NCDK.Modelings.Builder3D
                     var ringSetAContainer = RingSetManipulator.GetAllInOneContainer(ringSetA);
                     templateHandler.MapTemplates(ringSetAContainer, ringSetAContainer.Atoms.Count);
 
-                    if (CheckAllRingAtomsHasCoordinates(ringSetAContainer))
+                    if(CheckAllRingAtomsHasCoordinates(ringSetAContainer))
                     {
                     }
                     else
@@ -300,7 +300,7 @@ namespace NCDK.Modelings.Builder3D
                     //Debug.WriteLine("layout chains...");
                     SetAtomsToUnVisited(molecule);
                     atom = ap3d.GetNextPlacedHeavyAtomWithUnplacedAliphaticNeighbour(molecule);
-                    if (atom != null)
+                    if(atom != null)
                     {
                         ac = atom.Builder.NewAtomContainer();
                         ac.Atoms.Add(atom);
@@ -308,7 +308,7 @@ namespace NCDK.Modelings.Builder3D
                         ac = null;
                     }
                 }
-            } while (!ap3d.AllHeavyAtomsPlaced(molecule) || safetyCounter > molecule.Atoms.Count);
+            } while(!ap3d.AllHeavyAtomsPlaced(molecule) || safetyCounter > molecule.Atoms.Count);
         }
 
         /// <summary>
@@ -341,9 +341,9 @@ namespace NCDK.Modelings.Builder3D
             double angle = Math.Acos(dotProduct / (farthestAtomVector.Length() * farthestVector.Length()));
             Vector3 ringCenter = new Vector3();
 
-            for (int i = 0; i < ac.Atoms.Count; i++)
+            for(int i = 0; i < ac.Atoms.Count; i++)
             {
-                if (!(ac.Atoms[i].IsPlaced))
+                if(!(ac.Atoms[i].IsPlaced))
                 {
                     ringCenter.X = (ac.Atoms[i].Point3D).Value.X - newCoord.X;
                     ringCenter.Y = (ac.Atoms[i].Point3D).Value.Y - newCoord.Y;
@@ -365,10 +365,10 @@ namespace NCDK.Modelings.Builder3D
             ringCenter.X = ringCenter.X - newCoord.X;
             ringCenter.Y = ringCenter.Y - newCoord.Y;
             ringCenter.Z = ringCenter.Z - newCoord.Z;
-            for (int i = 1; i < 360; i++)
+            for(int i = 1; i < 360; i++)
             {
                 ringCenter = AtomTetrahedralLigandPlacer3D.Rotate(ringCenter, axis, angle);
-                if (Vector3.Distance(centerPlacedMolecule, new Vector3(ringCenter.X, ringCenter.Y, ringCenter.Z)) > distance)
+                if(Vector3.Distance(centerPlacedMolecule, new Vector3(ringCenter.X, ringCenter.Y, ringCenter.Z)) > distance)
                 {
                     rotAngleMax = i;
                     distance = Vector3.Distance(centerPlacedMolecule, new Vector3(ringCenter.X, ringCenter.Y, ringCenter.Z));
@@ -377,9 +377,9 @@ namespace NCDK.Modelings.Builder3D
 
             //rotate ring around axis with best angle
             rotAngleMax = (rotAngleMax / 180) * Math.PI;
-            for (int i = 0; i < ac.Atoms.Count; i++)
+            for(int i = 0; i < ac.Atoms.Count; i++)
             {
-                if (!(ac.Atoms[i].IsPlaced))
+                if(!(ac.Atoms[i].IsPlaced))
                 {
                     ringCenter.X = (ac.Atoms[i].Point3D).Value.X;
                     ringCenter.Y = (ac.Atoms[i].Point3D).Value.Y;
@@ -412,7 +412,7 @@ namespace NCDK.Modelings.Builder3D
 
             double length = ap3d.GetBondLengthValue(atypeNameA, atypeNameUnplaced);
             double angle = (ap3d.GetAngleValue(atypeNameB, atypeNameA, atypeNameUnplaced)) * Math.PI / 180;
-            
+
             // Console.Out.WriteLine("A:"+atomA.Symbol+" "+atomA.AtomTypeName+
             // " B:"+atomB.Symbol+" "+atomB.AtomTypeName
             // +" unplaced Atom:"
@@ -427,29 +427,46 @@ namespace NCDK.Modelings.Builder3D
                     (atomA.FormalNeighbourCount.Value - atomNeighbours.Atoms.Count), length, angle);
             double distance = 0;
             int farthestPoint = 0;
-            for (int i = 0; i < branchPoints.Length; i++)
+            if(unplacedAtom.Point3D.HasValue)
             {
-                if (Math.Abs(Vector3.Distance(branchPoints[i], centerPlacedMolecule)) > Math.Abs(distance))
+                /// Alchemie - if the unplaced atom has a position, use the point that is closest to the unplaced atom.
+                distance = double.MaxValue;
+                for(int i = 0; i < branchPoints.Length; i++)
                 {
-                    distance = Vector3.Distance(branchPoints[i], centerPlacedMolecule);
-                    farthestPoint = i;
+                    var curDistance = Math.Abs(Vector3.Distance(branchPoints[i], unplacedAtom.Point3D.Value));
+                    if(curDistance < distance)
+                    {
+                        distance = curDistance;
+                        farthestPoint = i;
+                    }
+                }
+            }
+            else
+            {
+                for(int i = 0; i < branchPoints.Length; i++)
+                {
+                    if(Math.Abs(Vector3.Distance(branchPoints[i], centerPlacedMolecule)) > Math.Abs(distance))
+                    {
+                        distance = Vector3.Distance(branchPoints[i], centerPlacedMolecule);
+                        farthestPoint = i;
+                    }
                 }
             }
 
             int stereo = -1;
             IBond unplacedBond = molecule.GetBond(atomA, unplacedAtom);
-            if (atomA.StereoParity != 0
+            if(atomA.StereoParity != 0
                     || (unplacedBond.Stereo == BondStereo.Up || unplacedBond.Stereo == BondStereo.Down)
                     && molecule.GetMaximumBondOrder(atomA) == BondOrder.Single)
             {
-                if (atomNeighbours.Atoms.Count > 1)
+                if(atomNeighbours.Atoms.Count > 1)
                 {
                     stereo = AtomTetrahedralLigandPlacer3D.MakeStereocenter(atomA.Point3D.Value, molecule.GetBond(atomA, unplacedAtom),
                             (atomNeighbours.Atoms[0]).Point3D.Value, (atomNeighbours.Atoms[1]).Point3D.Value,
                             branchPoints);
                 }
             }
-            if (stereo != -1)
+            if(stereo != -1)
             {
                 farthestPoint = stereo;
             }
@@ -467,19 +484,19 @@ namespace NCDK.Modelings.Builder3D
             //Debug.WriteLine("****** SEARCH AND PLACE ****** Chain length: "+chain.Atoms.Count);
             IAtomContainer branchAtoms = molecule.Builder.NewAtomContainer();
             IAtomContainer connectedAtoms = molecule.Builder.NewAtomContainer();
-            for (int i = 0; i < chain.Atoms.Count; i++)
+            for(int i = 0; i < chain.Atoms.Count; i++)
             {
                 var atoms = molecule.GetConnectedAtoms(chain.Atoms[i]);
-                foreach (var atom in atoms)
+                foreach(var atom in atoms)
                 {
-                    if (!atom.AtomicNumber.Equals(NaturalElements.H.AtomicNumber) & !atom.IsPlaced & !atom.IsInRing)
+                    if(!atom.AtomicNumber.Equals(NaturalElements.H.AtomicNumber) & !atom.IsPlaced & !atom.IsInRing)
                     {
                         connectedAtoms.Add(ap3d.GetPlacedHeavyAtoms(molecule, chain.Atoms[i]));
                         try
                         {
                             SetBranchAtom(molecule, atom, chain.Atoms[i], connectedAtoms, ap3d, atlp3d);
                         }
-                        catch (CDKException ex2)
+                        catch(CDKException ex2)
                         {
                             Trace.TraceError($"SearchAndPlaceBranchERROR: Cannot find enough neighbour atoms due to {ex2.ToString()}");
                             throw new CDKException($"SearchAndPlaceBranchERROR: Cannot find enough neighbour atoms: {ex2.Message}", ex2);
@@ -504,14 +521,14 @@ namespace NCDK.Modelings.Builder3D
             IAtom dihPlacedAtom = null;
             IAtom thirdPlacedAtom = null;
             IAtomContainer longestUnplacedChain = molecule.Builder.NewAtomContainer();
-            if (startAtoms.Atoms.Count == 0)
+            if(startAtoms.Atoms.Count == 0)
             {
                 //no branch points ->linear chain
                 //Debug.WriteLine("------ LINEAR CHAIN - FINISH ------");
             }
             else
             {
-                for (int i = 0; i < startAtoms.Atoms.Count; i++)
+                for(int i = 0; i < startAtoms.Atoms.Count; i++)
                 {
                     //Debug.WriteLine("FOUND BRANCHED ALKAN");
                     //Debug.WriteLine("Atom NOT NULL:" + molecule.Atoms.IndexOf(startAtoms.GetAtomAt(i)));
@@ -523,7 +540,7 @@ namespace NCDK.Modelings.Builder3D
                     longestUnplacedChain.Add(AtomPlacer.GetLongestUnplacedChain(molecule, startAtoms.Atoms[i]));
                     SetAtomsToUnVisited(molecule);
 
-                    if (longestUnplacedChain.Atoms.Count < 4)
+                    if(longestUnplacedChain.Atoms.Count < 4)
                     {
                         //di,third,sec
                         //Debug.WriteLine("------ Single BRANCH METHYLTYP ------");
@@ -552,9 +569,9 @@ namespace NCDK.Modelings.Builder3D
         private static void TranslateStructure(Vector3 originalCoord, Vector3 newCoord, IAtomContainer ac)
         {
             Vector3 transVector = originalCoord - newCoord;
-            for (int i = 0; i < ac.Atoms.Count; i++)
+            for(int i = 0; i < ac.Atoms.Count; i++)
             {
-                if (!(ac.Atoms[i].IsPlaced))
+                if(!(ac.Atoms[i].IsPlaced))
                 {
                     ac.Atoms[i].Point3D -= transVector;
                     //ac.GetAtomAt(i).IsPlaced = true;
@@ -569,12 +586,12 @@ namespace NCDK.Modelings.Builder3D
         /// <returns>bool</returns>
         private static bool CheckAllRingAtomsHasCoordinates(IAtomContainer ac)
         {
-            for (int i = 0; i < ac.Atoms.Count; i++)
+            for(int i = 0; i < ac.Atoms.Count; i++)
             {
-                if (ac.Atoms[i].Point3D != null && ac.Atoms[i].IsInRing)
+                if(ac.Atoms[i].Point3D != null && ac.Atoms[i].IsInRing)
                 {
                 }
-                else if (!ac.Atoms[i].IsInRing)
+                else if(!ac.Atoms[i].IsInRing)
                 {
                 }
                 else
@@ -591,7 +608,7 @@ namespace NCDK.Modelings.Builder3D
         /// <param name="ac">The new atomsToPlace value</param>
         private static void SetAtomsToPlace(IAtomContainer ac)
         {
-            for (int i = 0; i < ac.Atoms.Count; i++)
+            for(int i = 0; i < ac.Atoms.Count; i++)
             {
                 ac.Atoms[i].IsPlaced = true;
             }
@@ -602,7 +619,7 @@ namespace NCDK.Modelings.Builder3D
         /// </summary>
         private static void SetAtomsToUnplaced(IAtomContainer molecule)
         {
-            for (int i = 0; i < molecule.Atoms.Count; i++)
+            for(int i = 0; i < molecule.Atoms.Count; i++)
             {
                 molecule.Atoms[i].IsPlaced = false;
             }
@@ -613,7 +630,7 @@ namespace NCDK.Modelings.Builder3D
         /// </summary>
         private static void SetAtomsToUnVisited(IAtomContainer molecule)
         {
-            for (int i = 0; i < molecule.Atoms.Count; i++)
+            for(int i = 0; i < molecule.Atoms.Count; i++)
             {
                 molecule.Atoms[i].IsVisited = false;
             }
