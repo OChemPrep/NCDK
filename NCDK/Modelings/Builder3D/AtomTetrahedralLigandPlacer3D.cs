@@ -195,6 +195,20 @@ namespace NCDK.Modelings.Builder3D
             {
                 //            WTF???
             }
+            if(refAtom.Hybridization == Hybridization.SP3)
+            {
+                //sp3
+                try
+                {
+                    newPoints = Get3DCoordinatesForSP3Ligands(refAtom, noCoords, withCoords, atomC, nwanted, length, angle);
+                }
+                catch(Exception ex1)
+                {
+                    //                Debug.WriteLine("Get3DCoordinatesForLigandsERROR: Cannot place SP3 Ligands due to:" + ex1.ToString());
+                    throw new CDKException("Cannot place sp3 substituents\n" + ex1.Message, ex1);
+                }
+
+            }
             else if(refAtom.FormalNeighbourCount == 2 || refMaxBondOrder == BondOrder.Triple)
             {
                 //sp
@@ -311,7 +325,7 @@ namespace NCDK.Modelings.Builder3D
             }
             if(nwithCoords == 0)
             {
-                newPoints = Calculate3DCoordinates0(refAtom.Point3D.Value, nwanted, length);
+                newPoints = Calculate3DCoordinatesSP3(refAtom.Point3D.Value, nwanted, length);
             }
             else if(nwithCoords == 1)
             {
@@ -334,6 +348,18 @@ namespace NCDK.Modelings.Builder3D
             }
             //Debug.WriteLine("...Ready");
             return newPoints;
+        }
+
+        private Vector3[] Calculate3DCoordinatesSP3(Vector3 aPoint, int nwanted, double length)
+        {
+            Vector3[] points = Array.Empty<Vector3>();
+            points = new Vector3[4];
+            double dx = length / Math.Sqrt(3.0);
+            points[0] = aPoint + new Vector3(dx, dx, dx);
+            points[1] = aPoint + new Vector3(dx, -dx, -dx);
+            points[2] = aPoint + new Vector3(-dx, -dx, dx);
+            points[3] = aPoint + new Vector3(-dx, dx, -dx);
+            return points;
         }
 
         /// <summary>

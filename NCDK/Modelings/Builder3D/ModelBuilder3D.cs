@@ -429,7 +429,7 @@ namespace NCDK.Modelings.Builder3D
             int farthestPoint = 0;
             if(unplacedAtom.Point3D.HasValue)
             {
-                /// Alchemie - if the unplaced atom has a position, use the point that is closest to the unplaced atom.
+                // Alchemie - if the unplaced atom has a position, use the point that is closest to the unplaced atom.
                 distance = double.MaxValue;
                 for(int i = 0; i < branchPoints.Length; i++)
                 {
