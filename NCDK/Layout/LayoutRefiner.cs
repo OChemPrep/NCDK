@@ -841,7 +841,7 @@ namespace NCDK.Layout
                 if (congestion.Score() < min)
                     continue;
 
-                // bending or stretching: least favourable but sometimes
+                // bending or stretching: least favorable but sometimes
                 // the only way. We try either and use the best
                 BendOrStretch(pairs);
 

@@ -899,7 +899,7 @@ namespace NCDK.Layout
             // choose the orientation in which to display the structure
             if (selectOrientation)
             {
-                // check for attachment points, these override the direction which we rorate structures
+                // check for attachment points, these override the direction which we rotate structures
                 IAtom begAttach = null;
                 foreach (var atom in molecule.Atoms)
                 {
@@ -910,7 +910,7 @@ namespace NCDK.Layout
                     }
                 }
 
-                // no attachment point, rorate to maximise horizontal spread etc.
+                // no attachment point, rotate to maximize horizontal spread etc.
                 if (begAttach == null)
                 {
                     SelectOrientation(molecule, 2 * DefaultBondLength, 1);
