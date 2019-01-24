@@ -41,6 +41,10 @@
     <DocumentationFile>bin\Release\netstandard2.0\NCDK.xml</DocumentationFile>
   </PropertyGroup>
   
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <DefineConstants />
+  </PropertyGroup>
+  
   <ItemGroup>
     <None Remove="Beam\element-defaults.txt" />
     <None Remove="Config\Data\electroneg-pauling.txt" />
