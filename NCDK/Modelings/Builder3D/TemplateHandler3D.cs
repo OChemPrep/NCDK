@@ -78,21 +78,24 @@ namespace NCDK.Modelings.Builder3D
         /// Load ring template
         /// </summary>
         /// <exception cref="CDKException">The template file cannot be loaded</exception>
-        private void LoadTemplates()
+        public void LoadTemplates()
         {
-            try
+            if(_defaultTemplatesLoaded == false)
             {
-                using(var gin = GetType().Assembly.GetManifestResourceStream(GetType(), TemplatePath))
-                using(var ins = new GZipStream(gin, CompressionMode.Decompress))
+                try
                 {
-                    LoadTemplates(ins);
-                }
+                    using(var gin = GetType().Assembly.GetManifestResourceStream(GetType(), TemplatePath))
+                    using(var ins = new GZipStream(gin, CompressionMode.Decompress))
+                    {
+                        LoadTemplates(ins);
+                    }
 
-                _defaultTemplatesLoaded = true;
-            }
-            catch(IOException e)
-            {
-                throw new CDKException("Could not load ring templates", e);
+                    _defaultTemplatesLoaded = true;
+                }
+                catch(IOException e)
+                {
+                    throw new CDKException("Could not load ring templates", e);
+                }
             }
         }
 
@@ -183,9 +186,6 @@ namespace NCDK.Modelings.Builder3D
         /// <param name="numberOfRingAtoms">Number of atoms in the specified ring</param>
         public void MapTemplates(IAtomContainer mol, int numberOfRingAtoms)
         {
-            if(!_defaultTemplatesLoaded)
-                LoadTemplates();
-
             IAtomContainer best = null;
             Dictionary<IChemObject, IChemObject> bestMap = null;
             IAtomContainer secondBest = null;
